@@ -1,0 +1,877 @@
+{% comment %}
+** Details page - custom view **
+- Page template
+- Uses blocks
+{% endcomment %}
+
+{% if section.blocks.size > 0 %}
+  {% for block in section.blocks %}
+
+    <div {{ block.shopify_attributes }} class="page-details-block block__{{ block.type }}">
+
+      {% if block.type == 'image_with_text_overlay' %}
+
+        {% include 'include-image-with-text-overlay', type: 'block' %}
+
+      {% elsif block.type == 'map' %}
+
+        {% include 'include-map', type: 'block' %}
+
+      {% elsif block.type == 'rich_text_and_image' %}
+
+        {% include 'include-rich-text', type: 'block' %}
+
+      {% elsif block.type == 'featured_collection' %}
+
+        {% include 'include-featured-collection', type: 'block' %}
+
+      {% elsif block.type == 'blog_posts' %}
+
+        {% include 'include-blog-post', type: 'block' %}
+
+      {% elsif block.type == 'image_gallery' %}
+
+        {% include 'include-image-gallery', type: 'block' %}
+
+      {% elsif block.type == 'divider' %}
+
+        {% include 'include-divider', type: 'block' %}
+
+      {% elsif block.type == 'video' %}
+
+        {% include 'include-video', type: 'block' %}
+
+      {% elsif block.type == 'page' %}
+
+        {% include 'include-page', type: 'block' %}
+
+      {% elsif block.type == "contact_form" %}
+
+        {% include 'include-contact-form', type: 'block' %}
+
+      {% elsif block.type == 'quote' %}
+
+        {% include 'include-quote', type: 'block' %}
+
+      {% elsif block.type == 'image_with_text' %}
+
+        {% include 'include-image-with-text', type: 'block' %}
+
+      {% endif %}
+
+    </div>
+
+  {% endfor %}
+{% endif %}
+
+<style>
+  .sub-footer {
+    margin-top: 0;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Page",
+  "class": "page-details-section details-section draggable-banner--true",
+  "max_blocks": 20,
+  "blocks": [
+    {
+      "type": "blog_posts",
+      "name": "Blog posts",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Blog posts"
+        },
+        {
+          "type": "blog",
+          "id": "blog_widget_select",
+          "label": "Blog"
+        },
+        {
+          "type": "range",
+          "id": "home_page_articles",
+          "label": "Posts",
+          "min": 2,
+          "max": 4,
+          "step": 1,
+          "default": 2
+        },
+        {
+          "type": "checkbox",
+          "id": "blog_tags",
+          "label": "Show blog post tags"
+        },
+        {
+          "type": "checkbox",
+          "id": "blog_author",
+          "label": "Show author",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "blog_date",
+          "label": "Show date",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "blog_comment_count",
+          "label": "Show comment count",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "read_more_link",
+          "label": "Show continue reading link for blog post excerpts",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "contact_form",
+      "name": "Contact form",
+      "settings": [
+        {
+          "type": "text",
+          "id": "contact_heading",
+          "label": "Heading",
+          "default": "Contact form"
+        },
+        {
+          "type": "richtext",
+          "id": "contact_content",
+          "label": "Text",
+          "default": "<p>Contact form description.</p>"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "800 x 800px recommended"
+        },
+        {
+          "type": "select",
+          "id": "contact_text_position",
+          "label": "Form position",
+          "default": "left",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "contact_text_alignment",
+          "label": "Text alignment",
+          "default": "left",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "divider",
+      "name": "Divider",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Add spacing in between your sections by using a divider."
+        },
+        {
+          "type": "range",
+          "id": "divider_spacing",
+          "min": 0,
+          "max": 30,
+          "step": 5,
+          "unit": "px",
+          "label": "Spacing",
+          "default": 20
+        },
+        {
+          "type": "checkbox",
+          "id": "divider_border",
+          "label": "Show border",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "featured_collection",
+      "name": "Featured collection",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Featured collection"
+        },
+        {
+          "type": "collection",
+          "id": "frontpage_collection",
+          "label": "Collection"
+        },
+        {
+          "type": "range",
+          "id": "frontpage_products_per_row",
+          "label": "Products per row",
+          "min": 2,
+          "max": 4,
+          "step": 1,
+          "default": 3
+        },
+        {
+          "type": "range",
+          "id": "frontpage_products_limit",
+          "label": "Limit products",
+          "min": 2,
+          "max": 50,
+          "step": 1,
+          "default": 48
+        }
+      ]
+    },
+    {
+      "type": "video",
+      "name": "Video",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Video"
+        },
+        {
+          "type": "select",
+          "id": "aspect_ratio",
+          "label": "Aspect ratio",
+          "options": [
+            {
+              "value": "16:9",
+              "label": "16:9"
+            },
+            {
+              "value": "4:3",
+              "label": "4:3"
+            }
+          ],
+          "default": "16:9"
+        },
+        {
+          "type": "checkbox",
+          "id": "autoplay",
+          "label": "Autoplay video",
+          "default": true,
+          "info": "Limited browser support for autoplaying video ([?](https:\/\/help.outofthesandbox.com\/hc\/en-us\/articles\/360000661568-Why-won-t-my-video-autoplay-))"
+        },
+        {
+          "type": "checkbox",
+          "id": "autoloop",
+          "label": "Autoloop video",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "video_dark_overlay",
+          "label": "Darken video"
+        },
+        {
+          "type": "video_url",
+          "id": "video",
+          "label": "Video link",
+          "accept": ["youtube", "vimeo"],
+          "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+        },
+        {
+          "type": "text",
+          "id": "mp4",
+          "label": "HTML5 MP4 File URL"
+        },
+        {
+          "type": "text",
+          "id": "ogv",
+          "label": "HTML5 OGV File URL (optional)"
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+       {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "1600 x 900px recommended"
+        },
+        {
+          "type": "checkbox",
+          "id": "display_text_over_video",
+          "label": "Show text when video is playing",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "subtext",
+          "label": "Subheading",
+          "default": "<p></p>"
+        },
+        {
+          "type": "select",
+          "id": "text_position",
+          "label": "Text position",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "select",
+          "id": "text_align",
+          "label": "Text alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Play Video"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Button link"
+        }
+      ]
+    },
+    {
+      "type": "image_gallery",
+      "name": "Image gallery",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "page_detail_image_1",
+          "label": "Image 1",
+          "info": "760 x 500px wide recommended"
+        },
+        {
+          "type": "image_picker",
+          "id": "page_detail_image_2",
+          "label": "Image 2",
+          "info": "760 x 500px wide recommended"
+        },
+        {
+          "type": "image_picker",
+          "id": "page_detail_image_3",
+          "label": "Image 3",
+          "info": "760 x 500px wide recommended"
+        }
+      ]
+    },
+    {
+      "type": "image_with_text",
+      "name": "Image with text",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "wide_display",
+          "default": false,
+          "label": "Wide display"
+        },
+        {
+          "type": "select",
+          "id": "grid_text_position",
+          "label": "Text position",
+          "options": [
+            {
+              "value": "right",
+              "label": "Right"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "text_align",
+          "label": "Text alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "1000 x 400px recommended"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Image"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Promotion description appears here.</p>"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "View all"
+        }
+      ]
+    },
+    {
+      "type": "image_with_text_overlay",
+      "name": "Image with text overlay",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "wide_display",
+          "default": true,
+          "label": "Wide display"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "1600 x 600px recommended"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Page Details Template"
+        },
+        {
+          "type": "richtext",
+          "id": "subtext",
+          "label": "Subheading",
+          "default": "<p>This is a short subheading for your banner image</p>"
+        },
+        {
+          "type": "select",
+          "id": "text_position",
+          "label": "Text position",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "select",
+          "id": "text_align",
+          "label": "Text alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    },
+    {
+      "type": "map",
+      "name": "Map",
+      "settings": [
+        {
+          "type": "text",
+          "id": "map_address",
+          "label": "Map address",
+          "info": "Google Maps will find the exact location"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Come and visit"
+        },
+        {
+          "type": "richtext",
+          "id": "address_and_hours",
+          "label": "Address and hours",
+          "default": "<p>123 Fake Street</p><p>Toronto, Canada</p><p>Mon - Fri, 10am - 9pm</p><p>Saturday, 11am - 9pm</p><p>Sunday, 11am - 5pm</p>"
+        },
+        {
+          "type": "checkbox",
+          "id": "store_hours",
+          "label": "Show store hours",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Displayed if the map isn’t loaded"
+        },
+        {
+          "type": "header",
+          "content": "Layout"
+        },
+        {
+          "type": "select",
+          "id": "text_align",
+          "label": "Text alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "map_position",
+          "label": "Map position",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        },
+        {
+          "type": "range",
+          "id": "zoom_level",
+          "min": 1,
+          "max": 20,
+          "step": 1,
+          "unit": "x",
+          "label": "Map zoom level",
+          "default": 12
+        },
+        {
+          "type": "checkbox",
+          "id": "wide_display",
+          "label": "Wide display",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "API key"
+        },
+        {
+          "type": "text",
+          "id": "api_key",
+          "label": "Google Maps API key",
+          "info": "You’ll need to [register a Google Maps API Key](https://help.shopify.com/manual/using-themes/troubleshooting/map-section-api-key) to display the map"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_pin",
+          "label": "Show pin",
+          "info": "Requires use of API key",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Map link label",
+          "info": "Requires use of API key",
+          "default": "Directions"
+        },
+        {
+          "type": "select",
+          "id": "map_style",
+          "label": "Map color scheme",
+          "options": [
+            {
+              "value": "default",
+              "label": "Default"
+            },
+            {
+              "value": "aubergine",
+              "label": "Aubergine"
+            },
+            {
+              "value": "night",
+              "label": "Night"
+            },
+            {
+              "value": "retro",
+              "label": "Retro"
+            },
+            {
+              "value": "silver",
+              "label": "Silver"
+            }
+          ],
+          "default": "default",
+          "info": "Requires use of API key"
+        }
+      ]
+    },
+    {
+      "type": "page",
+      "name": "Page",
+      "settings": [
+        {
+          "type": "page",
+          "id": "content_page",
+          "label": "Content page"
+        }
+      ]
+    },
+    {
+      "type": "quote",
+      "name": "Quote",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "page_quote",
+          "label": "Text",
+          "default": "<p><i>Use this block for a quote, fun fact, announcement or other callout text.</i></p>"
+        }
+      ]
+    },
+    {
+      "type": "rich_text_and_image",
+      "name": "Rich text",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Logo"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Talk about your brand"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Text",
+          "default": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+        },
+        {
+          "type": "select",
+          "id": "text_size",
+          "label": "Text size",
+          "options": [
+            {
+              "value": "regular_text",
+              "label": "Regular"
+            },
+            {
+              "value": "featured_text",
+              "label": "Large"
+            }
+          ],
+          "default": "featured_text"
+        },
+        {
+          "type": "select",
+          "id": "text_alignment",
+          "label": "Text alignment",
+          "options": [
+            {
+              "value": "align_left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Link label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "default": {
+    "settings": {
+    },
+    "blocks": [
+      {
+        "type": "image_with_text_overlay",
+        "settings": {
+        }
+      },
+      {
+        "type": "rich_text_and_image",
+        "settings": {
+        }
+      },
+      {
+        "type": "divider",
+        "settings": {
+          "divider_spacing": 20
+        }
+      },
+      {
+        "type": "featured_collection",
+        "settings": {
+        }
+      },
+      {
+        "type": "divider",
+        "settings": {
+          "divider_spacing": 20
+        }
+      },
+      {
+        "type": "image_with_text_overlay",
+        "settings": {
+        }
+      },
+      {
+        "type": "divider",
+        "settings": {
+          "divider_spacing": 20
+        }
+      },
+      {
+        "type": "blog_posts",
+        "settings": {
+        }
+      },
+      {
+        "type": "map",
+        "settings": {
+        }
+      },
+      {
+        "type": "divider",
+        "settings": {
+          "divider_spacing": 15
+        }
+      },
+      {
+        "type": "contact_form",
+        "settings": {
+        }
+      },
+      {
+        "type": "divider",
+        "settings": {
+          "divider_spacing": 15
+        }
+      }
+    ]
+  }
+}
+{% endschema %}

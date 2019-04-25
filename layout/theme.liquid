@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="{{ shop.locale }}">
+<head>
+  <script type="text/javascript">(function e(){var e=document.createElement("script");e.type="text/javascript",e.async=true,e.src="//staticw2.yotpo.com/H5tAISm9ouMtuEBA0ub3dSSjx1c6XKlqaniKy0OG/widget.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)})();</script>
+  <meta name="google-site-verification" content="FseVpl-vWhX-xv3XaOSVDDMU3RyRtCZ4vhie1-zxlm8" />
+  
+  <meta charset="utf-8">
+  <meta http-equiv="cleartype" content="on">
+  <meta name="robots" content="index,follow">
+  <meta http-equiv="content-language" content="en-gb" />
+  
+  <link rel="alternate" href="https://www.progurt.com{% if template contains 'product' %}/products/{{ product.handle }}{% elsif template contains 'collection' %}/collections/{{ collection.handle }}{% elsif template contains 'page' %}{{ page.url }}{% elsif template contains 'blog' %}/blogs/{{ blog.handle }}{% endif %}" hreflang="en-us" />
+  <link rel="alternate" href="https://www.progurt.com.au{% if template contains 'product' %}/products/{{ product.handle }}{% elsif template contains 'collection' %}/collections/{{ collection.handle }}{% elsif template contains 'page' %}{{ page.url }}{% elsif template contains 'blog' %}/blogs/{{ blog.handle }}{% endif %}" hreflang="en-au" />
+  <link rel="alternate" href="https://www.progurt.co.uk{% if template contains 'product' %}/products/{{ product.handle }}{% elsif template contains 'collection' %}/collections/{{ collection.handle }}{% elsif template contains 'page' %}{{ page.url }}{% elsif template contains 'blog' %}/blogs/{{ blog.handle }}{% endif %}" hreflang="en-gb" />
+  <link rel="alternate" href="https://www.progurt.com" hreflang="x-default" />
+  
+  {% include 'SEOManager' %}
+
+  {% include 'social-meta-info' %}
+
+  {% if collection.previous_product %}
+  <link rel="prev" href="{{ collection.previous_product }}">
+  {% endif %}
+  {% if collection.next_product %}
+  <link rel="next" href="{{ collection.next_product }}">
+  {% endif %}
+
+  <!-- Mobile Specific Metas -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="{{ settings.shop_bg_color }}">
+
+  <!-- Stylesheets for Retina 4.5.3 -->
+  {{ 'styles.scss.css' | asset_url | stylesheet_tag }}
+  {{ 'custom-style.css' | asset_url | stylesheet_tag }}
+    <!--[if lte IE 9]>
+      {{ 'ie.css' | asset_url | stylesheet_tag }}
+      <![endif]-->
+
+      {% if settings.favicon != nil %}
+      <link rel="shortcut icon" type="image/x-icon" href="{{ settings.favicon | img_url: '32x32' }}">
+      {% else %}
+      <link rel="shortcut icon" type="image/x-icon" href="{{ 'favicon.png' | asset_url }}">
+      {% endif %}
+
+      <link rel="canonical" href="{{ canonical_url }}" />
+
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+
+      {% if template contains 'customer' %}
+      {{ "shopify_common.js" | shopify_asset_url | script_tag }}
+      {{ "customer_area.js"  | shopify_asset_url | script_tag }}
+      {% endif %}
+
+      {{ 'app.js' | asset_url | script_tag }}
+      {{ content_for_header }}
+
+      <noscript>
+        <style>
+        .lazyload--mirage+.transition-helper {
+          display: none;
+        }
+        .image__fallback {
+          width: 100vw;
+          display: block !important;
+          max-width: 100vw !important;
+          margin-bottom: 0;
+        }
+        .no-js-only {
+          display: inherit !important;
+        }
+        .icon-cart.cart-button {
+          display: none;
+        }
+        .lazyload {
+          opacity: 1;
+          -webkit-filter: blur(0);
+          filter: blur(0);
+        }
+        .animate_right,
+        .animate_left,
+        .animate_up,
+        .animate_down {
+          opacity: 1;
+        }
+        .flexslider .slides>li {
+          display: block;
+        }
+        .product_section .product_form {
+          opacity: 1;
+        }
+        .multi_select,
+        form .select {
+          display: block !important;
+        }
+        .swatch_options {
+          display: none;
+        }
+        .primary_logo {
+          display: block;
+        }
+        </style>
+      </noscript>
+    </head>
+    {% if template contains "index" or template contains "article" or template contains "banner" or template contains "page.details" or template contains "blog" or template contains "faq" or template contains "contact" %}
+    {% assign feature_image = true %}
+    {% else %}
+    {% assign feature_image = false %}
+    {% endif %}
+    <body class="{{ template | replace: '.', '-' | handle }} {% if feature_image %}feature_image{% endif %}" data-money-format="{{ shop.money_format }}">
+
+      <!--  begin redirect code -->
+      {% if settings.redirect_use %}
+      {% include 'redirect-message' %}
+      {{ 'redirect.scss' | asset_url | stylesheet_tag }}
+      {{ 'redirect.js' | asset_url | script_tag }}
+      <script>
+      IPRedirect.init({{ settings | json }});
+      IPRedirect.run();
+      </script>
+      {% endif %}
+      <!--  end redirect code -->
+
+
+      {% comment %}begin spash-page{% endcomment %}
+      {% if template contains 'index' %}
+      <a href="#divForm" id="btnForm"></a>
+      <div id="divForm" style="display:none">
+        {% include 'spash-page' %} 
+      </div>
+      <!-- spash page fancybox poput -->
+      {{ 'jquery.fancybox.css' | asset_url | stylesheet_tag }}
+      {{ "js.cookie.js" | asset_url | script_tag }}
+      {{ "jquery.fancybox.js" | asset_url | script_tag }}   
+
+      <script type="text/javascript">
+      $(function() {
+        if ($.cookie('mycookie')) {
+// $("#btnForm").fancybox({
+//   tpl: {
+//     closeBtn: '<a title="Close" class="fancybox-item fancybox-close myClose2" href="javascript:;"></a>'
+//   },
+//   'autoSize' : false,
+//   'padding'  : 0,
+//   'width'    : "100%",
+//   'height'   : "100%"
+// }).trigger('click');
+    } else {
+
+// set cookie to expire in 30 days
+$.cookie('mycookie', 'true', { expires: 30}); 
+
+$("#btnForm").fancybox({
+  tpl: {
+    closeBtn: '<a title="Close" class="fancybox-item fancybox-close myClose2" href="javascript:;"></a>'
+  },
+  'autoSize' : false,
+  'padding'  : 0,
+  'width'    : "100%",
+  'height'   : "100%"
+
+}).trigger('click');
+}
+});
+
+
+      </script> 
+      {% endif %}
+      <!-- end fancybox poput-->
+
+      <div id="content_wrapper">
+
+        {% section 'header' %}
+
+        {{ content_for_layout }}
+
+        {% include 'cart-shipping-calculator' %}
+        {% section 'footer' %}
+
+        <div id="search">
+          <div class="container">
+            <div class="ten columns offset-by-three center">
+              <div class="right search-close">
+                <span class="icon-close"></span>
+              </div>
+              <form action="/search">
+                {% if settings.search_option != 'everything' %}
+                <input type="hidden" name="type" value="product" />
+                {% endif %}
+                <span class="icon-search search-submit"></span>
+                <input type="text" name="q" placeholder="{{ 'general.search.placeholder_with_shop_name' | t: shop_name: shop.name }}" value="{% if search and search.results.first.price %}{{ search.terms }}{% endif %}" autocapitalize="off" autocomplete="off" autocorrect="off" />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% if settings.size_chart != blank %}
+      <div id="size-chart" class="size_chart_content">
+        <h5 class="center">{{ pages[settings.size_chart].title }}</h5>
+        {{ pages[settings.size_chart].content }}
+      </div>
+      {% endif %}
+
+      {% include 'newsletter-popup' %}
+      {% include 'currencies' %}
+      {% if settings.disqus_enabled %}
+      {% if template contains "blog" or template contains "article" or template contains "index" %}
+      <script id="dsq-count-scr" src="//{{ settings.disqus_shortname }}.disqus.com/count.js" async></script>
+      {% endif %}
+      {% endif %}
+
+      <!-- product slider only for mobile -->
+      {% if template == 'product' %}
+      {{ "jquery-1.8.3.min.js" | asset_url | script_tag }} 
+      {{ "jquery.royalslider.min.js" | asset_url | script_tag }}
+      {{ 'royalslider.css' | asset_url | stylesheet_tag }}
+      {{ 'rs-default.css' | asset_url | stylesheet_tag }}
+
+      <script>
+      var jQuery_1_8_3 = $.noConflict(false);
+
+      jQuery(document).ready(function($) {
+          // Please note that autoHeight option has some conflicts with options like imageScaleMode, imageAlignCenter and autoScaleSlider
+          // it's recommended to disable them when using autoHeight module
+          $('#content-slider-1').royalSlider({
+            autoHeight: true,
+            arrowsNav: false,
+            fadeinLoadedSlide: false,
+            controlNavigationSpacing: 0,
+            controlNavigation: 'bullets',
+            imageScaleMode: 'none',
+            imageAlignCenter:false,
+            loop: false,
+            loopRewind: true,
+            numImagesToPreload: 6,
+            keyboardNavEnabled: true,
+            usePreloader: false
+          });
+        });
+      </script>
+
+      {% endif %}
+      <!-- end product slider only for mobile -->
+
+      <!-- change links when customer is login using diffrent tags -->
+      {% if customer.tags contains "Wholesale1" or 
+      customer.tags contains "Wholesale2" or 
+      customer.tags contains "Wholesale3" 
+      %}
+      <script>
+      $( document ).ready(function() {
+        $(".menu li:first-child a, .menu li:nth-child(2) a,.homepage_content a, .menu li:nth-child(3) a, .two:first-child .footer_menu a, .sidebar a, .slides a, .no-bottom-pad a").attr("href", "/collections/wholesalers-only");
+        console.log($(this).attr('href'));
+      });
+      </script>
+      {% endif %}
+      <!-- end change links when customer is login using diffrent tags -->
+
+
+      <script>
+    //product accordion
+    jQuery(".description .accordion").find("h3:first").next('div:first').addClass('active-content');
+    jQuery(".description .accordion").find("h3").click(function() {       
+      jQuery(this).toggleClass("active-accordian");
+      jQuery(this).next('div').slideToggle();
+      jQuery(this).siblings().next('div').slideUp();
+    });
+
+
+    if ($(window).width() <= 767) {
+    //footer mobile accordion
+    jQuery(".mobile-collapse-menu").find("h6").click(function() {       
+      jQuery(this).toggleClass("active-accordian");
+      jQuery(this).next('ul').slideToggle();
+      jQuery(this).siblings().next('ul').slideUp();
+    });
+  }
+
+    //spash-page mobile accordion
+    jQuery(".panel-group.visible-xs").find("h4").click(function() {       
+      jQuery(this).toggleClass("active-accordian");
+      jQuery(this).next('.panel-body').slideToggle();
+      jQuery(this).siblings().next('.panel-body').slideUp();
+    });
+
+    </script>
+    <style>
+    .accordion div{display: none;}
+    .accordion .active-content {display: block;}
+    </style>
+
+    {% include "sloyalty-statusbar" %}
+
+
+    <script>
+    function SAWOrderNote(note) {
+      note = note.replace("old text", "new text");
+      return note;
+    }
+
+    function SAWComplete(res) {
+      setTimeout(function() {
+        jQuery(".cart__note-add").click();
+      }, 500);
+
+      if (res.warning_note != '') {
+        var $cSelectors = [
+        '.purchase-benefits',
+        'input[name="checkout"]',
+        'button[name="checkout"]',
+        '[href$="checkout"]','input[name="goto_pp"]',
+        'button[name="goto_pp"]',
+        'input[name="goto_gc"]',
+        'button[name="goto_gc"]',
+        '.google-wallet-button-holder',
+        '.amazon-payments-pay-button',
+        '.alt-payment-list-amazon-button-image',
+        '.additional-checkout-button__logo'
+        ];
+
+        $cSelectors.forEach(function(selector) {
+          jQuery(selector).remove();
+        });
+        return;
+      }
+
+      setTimeout(function() {
+      //jQuery(".saw-cart-original-total").remove();
+    }, 10);
+
+      return;
+    }
+    </script>
+
+    {% include 'saw_cart' %}
+
+  </body>
+  </html>

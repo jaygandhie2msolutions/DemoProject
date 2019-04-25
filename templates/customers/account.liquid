@@ -1,0 +1,77 @@
+{% paginate customer.orders by 20 %}
+<div class="content container page page-content">
+  <div class="sixteen columns clearfix collection_nav">
+    <h1 class="collection_title">{{ 'customer.account.details' | t }}</h1>
+    <h2>You are now logged in.  Click <a href="{{ shop.url }}">here</a> to start shopping ></h2>
+  </div>
+   
+  
+<div class="sixteen columns">
+  <div class="clearfix breadcrumb">
+    <div class="right">
+      {% if shop.email %}<a href="mailto:{{shop.email}}"><ly-as-2504629>Contact Shop Owner</ly-as-2504629></a>{% endif %}
+    </div>
+
+    {% if customer %}
+      <ly-as-2504630>Logged in as</ly-as-2504630> <a href="/account" title="<ly-as-2504638>My Account</ly-as-2504638>">{{ customer.name }}</a> ({{ "logout" | customer_logout_link }})
+    {% endif %}
+  </div>
+</div>
+
+<div class="section clearfix">  
+  <div class="four columns">
+    <div id="customer_detail" class="group">
+      <h5 class="name">{{ customer.name }}</h5>
+      <p class="email note">{{ customer.email }}</p>
+      <div class="address note">
+        {% if customer.default_address != nil %}
+          <p>{{ customer.default_address.address1 }}</p>
+          {% if customer.default_address.address2 != "" %}
+            <p>{{ customer.default_address.address2 }}</p>
+          {% endif %}
+          <p>{{ customer.default_address.city}}, {% if address.province_code %}{{customer.default_address.province_code}}, {% endif %}{{customer.default_address.country}}</p>
+          <p>{{ customer.default_address.zip}}</p>
+          <p>{{ customer.default_address.phone }}</p>
+        {% endif %}
+        <p>
+          <a id="view_address" href="/account/addresses"><ly-as-2504631>View Addresses (</ly-as-2504631>{{ customer.addresses_count }})</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="twelve columns">
+    <div id="customer_orders">
+      {% if customer.orders.size != 0 %}
+      <table width="100%">
+        <thead>
+          <tr>
+            <th class="order_number"><ly-as-2504632>Order</ly-as-2504632></th>
+            <th class="date"><ly-as-2504633>Date</ly-as-2504633></th>
+            <th class="payment_status"><ly-as-2504634>Payment Status</ly-as-2504634></th>
+            <th class="fulfillment_status"><ly-as-2504635>Fulfillment Status</ly-as-2504635></th>
+            <th class="total"><ly-as-2504636>Total</ly-as-2504636></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in customer.orders %}
+          <tr class="{% cycle 'odd', 'even' %} {% if order.cancelled %}cancelled_order{% endif %}">
+            <td>{{ order.name | link_to: order.customer_url }}</td>
+            <td><span class="note">{{ order.created_at | date: "%b %d, %Y" }}</span></td>
+            <td><span class="status_{{ order.financial_status }}">{{ order.financial_status }}</span></td>
+            <td><span class="status_{{ order.fulfillment_status }}">{{ order.fulfillment_status }}</span></td>
+            <td><span class="total money">{{ order.total_price | money }}</span></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+        <p><ly-as-2504637>You haven't placed any orders yet.</ly-as-2504637></p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+</div>
+{% endpaginate %}

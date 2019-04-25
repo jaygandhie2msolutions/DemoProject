@@ -1,0 +1,253 @@
+{% if section.settings.image != blank %}
+  <section class="banner-section {% if section.settings.wide_display == false %}main_content_area container {% endif %} wide_display--{{ section.settings.wide_display }}">
+    <div class="slider flexslider homepage_slider">
+      <ul class="slides">
+        <li>
+          <img  src="{{ section.settings.image | img_url: '1200x' }}"
+                alt="{{ section.settings.image.alt | escape }}"
+                class="lazyload transition-in"
+                sizes="100vw"
+                srcset="{{ section.settings.image | img_url: '480x' }} 480w,
+                        {{ section.settings.image | img_url: '768x' }} 768w,
+                        {{ section.settings.image | img_url: '1200x' }} 1200w,
+                        {{ section.settings.image | img_url: '2048x2048' }} 2048w"
+                />
+          {% if section.settings.image != blank or section.settings.title != blank or section.settings.subtext != blank %}
+            <div class="flex-caption">
+              <div class="container">
+                <div class="columns {% if section.settings.text_position == 'left' %} nine offset-by-one {% elsif section.settings.text_position == 'right' %} eight offset-by-seven {% else %} ten offset-by-three {% endif %} align_{{ section.settings.text_align }}">
+                  {% if section.settings.title != blank %}
+                    <h1 class="headline">
+                      {{ section.settings.title | escape }}
+                    </h1>
+                  {% else %}
+                    <h1 class="headline">
+                      {{ page.title }}
+                    </h1>
+                  {% endif %}
+                  {% if section.settings.subtext != blank %}
+                    <div class="subtitle">
+                      {{ section.settings.subtext }}
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        </li>
+      </ul>
+    </div>
+  </section>
+{% endif %}
+
+<div class="main_content_area content container">
+  {% unless section.settings.image %}
+    <div class="sixteen columns clearfix">
+      {% if section.settings.title != blank %}
+        <h1 class="headline">
+          {{ section.settings.title | escape }}
+        </h1>
+      {% else %}
+        <h1 class="headline">
+          {{ page.title }}
+        </h1>
+      {% endif %}
+      {% if section.settings.subtext != blank %}
+        <div class="subtitle_content">
+          {{ section.settings.subtext }}
+        </div>
+      {% endif %}
+    </div>
+  {% endunless %}
+  {% if page.content != blank %}
+    <div class="sixteen columns page clearfix">
+      <div>
+        {% include 'page-multi-column', content: page.content %}
+      </div>
+    </div>
+  {% endif %}
+  <div class="sixteen columns">
+    {% if section.blocks.size > 0 %}
+      <dl class="faqAccordion">
+        {% for block in section.blocks %}
+          {% if block.type == "heading" %}
+            {% if block.settings.heading != blank %}
+              <h2 class="faq--heading">{{ block.settings.heading }}</h2>
+            {% endif %}
+          {% endif %}
+          {% if block.settings.title != blank %}
+            <dt><button type="button" aria-controls="panel-01" aria-expanded="true">{{ block.settings.title }}</button></dt>
+            <dd id="panel-01" aria-hidden="false">
+              {{ block.settings.subtitle }}
+            </dd>
+          {% endif %}
+        {% endfor %}
+      </dl>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "FAQ",
+    "class": "faq-template-section banner-option",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Banner"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image",
+        "info": "1600 x 600px recommended"
+      },
+      {
+        "type": "checkbox",
+        "id": "wide_display",
+        "label": "Wide display",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading"
+      },
+      {
+        "type": "richtext",
+        "id": "subtext",
+        "label": "Text"
+      },
+      {
+        "type": "select",
+        "id": "text_position",
+        "label": "Text position",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "select",
+        "id": "text_align",
+        "label": "Text alignment",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ]
+      }
+    ],
+    "blocks": [
+      {
+        "name": "Heading",
+        "type": "heading",
+        "settings": [
+          {
+            "type": "text",
+            "id": "heading",
+            "label": "Heading",
+            "default": "Title"
+          }
+        ]
+      },
+      {
+        "name": "Frequently asked question",
+        "type": "Content",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Question"
+          },
+          {
+            "type": "richtext",
+            "id": "subtitle",
+            "label": "Answer"
+          }
+        ]
+      }
+    ],
+    "default": {
+      "settings": {
+        "title": "FAQs"
+      },
+      "blocks": [
+        {
+          "type": "heading",
+          "settings": {
+            "heading": "Section"
+          }
+        },
+        {
+          "type": "Content",
+          "settings": {
+            "title": "Title",
+            "subtitle": "<p>Suspendisse feugiat. Fusce commodo aliquam arcu. Phasellus leo dolor, tempus non, auctor et, hendrerit quis, nisi.</p>"
+          }
+        },
+        {
+          "type": "Content",
+          "settings": {
+            "title": "Title",
+            "subtitle": "<p>Suspendisse feugiat. Fusce commodo aliquam arcu. Phasellus leo dolor, tempus non, auctor et, hendrerit quis, nisi.</p>"
+          }
+        },
+        {
+          "type": "Content",
+          "settings": {
+            "title": "Title",
+            "subtitle": "<p>Suspendisse feugiat. Fusce commodo aliquam arcu. Phasellus leo dolor, tempus non, auctor et, hendrerit quis, nisi.</p>"
+          }
+        },
+        {
+          "type": "heading",
+          "settings": {
+            "heading": "Section"
+          }
+        },
+        {
+          "type": "Content",
+          "settings": {
+            "title": "Title",
+            "subtitle": "<p>Suspendisse feugiat. Fusce commodo aliquam arcu. Phasellus leo dolor, tempus non, auctor et, hendrerit quis, nisi.</p>"
+          }
+        },
+        {
+          "type": "Content",
+          "settings": {
+            "title": "Title",
+            "subtitle": "<p>Suspendisse feugiat. Fusce commodo aliquam arcu. Phasellus leo dolor, tempus non, auctor et, hendrerit quis, nisi.</p>"
+          }
+        },
+        {
+          "type": "Content",
+          "settings": {
+            "title": "Title",
+            "subtitle": "<p>Suspendisse feugiat. Fusce commodo aliquam arcu. Phasellus leo dolor, tempus non, auctor et, hendrerit quis, nisi.</p>"
+          }
+        }
+      ]
+    }
+  }
+{% endschema %}

@@ -1,0 +1,105 @@
+<div class="homepage_content clearfix">
+  <div class="container">
+    <div class="sixteen columns text-align--{{ section.settings.text_align }}">
+      <div class="content_padding">
+        {% if section.settings.title != blank %}
+          <h2 class="title">
+            {{ section.settings.title | escape }}
+          </h2>
+        {% endif %}
+        {% if section.settings.subheading != blank %}
+          <p>{{ section.settings.subheading | escape }}</p>
+        {% endif %}
+        {% if section.settings.newsletter_richtext != blank %}
+          <div class="newsletter-text">{{ section.settings.newsletter_richtext }}</div>
+        {% endif %}
+        {% include 'newsletter' %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.newsletter-section .homepage_content {
+  color: {{ section.settings.newsletter_text }};
+  background-color: {{ section.settings.newsletter_background }};
+}
+{% unless section.settings.wide_display %}
+  .newsletter-section .homepage_content {
+    background-color: transparent;
+  }
+  .newsletter-section .homepage_content div.container {
+    background-color: {{ section.settings.newsletter_background }};
+  }
+{% endunless %}
+</style>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "class": "newsletter-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Newsletter"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Sign up to get the latest on sales, new releases and more …"
+    },
+    {
+      "type": "richtext",
+      "id": "newsletter_richtext",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "checkbox",
+      "id": "wide_display",
+      "default": true,
+      "label": "Wide display"
+    },
+    {
+      "type": "color",
+      "id": "newsletter_background",
+      "label": "Background",
+      "default": "#ede9dd"
+    },
+    {
+      "type": "color",
+      "id": "newsletter_text",
+      "label": "Text",
+      "default": "#303030"
+    }
+  ],
+  "presets": [{
+    "name": "Newsletter",
+    "category": "Promotional",
+    "settings": {
+    }
+  }]
+}
+{% endschema %}

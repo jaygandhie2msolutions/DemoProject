@@ -1,0 +1,123 @@
+{% if type == 'block' %}
+  {% assign shopify_attributes = block.shopify_attributes %}
+  {% assign wide_display = block.settings.wide_display %}
+  {% assign grid_text_position = block.settings.grid_text_position %}
+  {% assign text_align = block.settings.text_align %}
+  {% assign image = block.settings.image %}
+  {% assign title = block.settings.title %}
+  {% assign text = block.settings.text %}
+  {% assign link = block.settings.link %}
+  {% assign button_label = block.settings.button_label %}
+{% else %}
+  {% assign shopify_attributes = section.shopify_attributes %}
+  {% assign wide_display = section.settings.wide_display %}
+  {% assign grid_text_position = section.settings.grid_text_position %}
+  {% assign text_align = section.settings.text_align %}
+  {% assign image = section.settings.image %}
+  {% assign title = section.settings.title %}
+  {% assign text = section.settings.text %}
+  {% assign link = section.settings.link %}
+  {% assign button_label = section.settings.button_label %}
+{% endif %}
+
+{% capture right_text %}
+  <div class="featured_collections block__image-with-text clearfix grid-layout--{% if wide_display %}full-width{% else %}standard{% endif %} {% unless wide_display %} container {% endunless %}">
+    {% unless wide_display %}<div class="sixteen columns">{% endunless %}
+      <section class="featured-link--section featured-link--image section-{{ forloop.index }}" {{ shopify_attributes }}>
+        <div class="featured-link--half featured-link--image">
+          <div class="featured-link--wrap">
+            <a {% if link != blank %}href="{{ link }}"{% endif %} title="{{ title | escape }}">
+              {% if image %}
+                <img  src="{{ image | img_url: '300x' }}"
+                      alt="{{ image.alt | escape }}"
+                      data-src="{{ image | img_url: '2048x' }}"
+                      class="lazyload lazyload--fade-in"
+                      data-sizes="auto"
+                      data-srcset=" {{ image | img_url: '2048x' }} 2048w,
+                                    {{ image | img_url: '1600x' }} 1600w,
+                                    {{ image | img_url: '1200x' }} 1200w,
+                                    {{ image | img_url: '1000x' }} 1000w,
+                                    {{ image | img_url: '800x' }} 800w,
+                                    {{ image | img_url: '600x' }} 600w,
+                                    {{ image | img_url: '400x' }} 400w"
+                      />
+              {% else %}
+                {% capture i %}{% cycle "1", "2", "3", "4", "5", "6" %}{% endcapture %}
+                {{ 'collection-' | append: i | placeholder_svg_tag: 'placeholder-svg placeholder-svg--promotions' }}
+              {% endif %}
+            </a>
+          </div>
+        </div>
+        <div class="featured-link--half">
+          <div class="info text-align--{{text_align}}">
+            <a {% if link != blank %}href="{{ link }}"{% endif %} class="collection_title">
+              {{ title | escape }}
+            </a>
+            {% if text != blank %}
+              <div class="description">{{ text }}</div>
+            {% endif %}
+            {% if button_label != blank %}
+              <a {% if link != blank %}href="{{ link }}"{% endif %} class="action_button">
+                {{ button_label | escape }}
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      </section>
+    {% unless wide_display %}</div>{% endunless %}
+  </div>
+{% endcapture %}
+
+{% capture left_text %}
+  <div class="featured_collections block__image-with-text clearfix grid-layout--{% if wide_display %}full-width{% else %}standard{% endif %} {% unless wide_display %} container {% endunless %}">
+    {% unless wide_display %}<div class="sixteen columns">{% endunless %}
+    <section class="featured-link--section featured-link--image section-{{ forloop.index }}" {{ shopify_attributes }}>
+      <div class="featured-link--half">
+        <div class="info text-align--{{text_align}}">
+          <a {% if link != blank %}href="{{ link }}"{% endif %} class="collection_title">
+            {{ title | escape }}
+          </a>
+          {% if text != blank %}
+            <div class="description">{{ text }}</div>
+          {% endif %}
+          {% if button_label != blank %}
+            <a {% if link != blank %}href="{{ link }}"{% endif %} class="action_button">
+              {{ button_label | escape }}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+      <div class="featured-link--half featured-link--image">
+        <div class="featured-link--wrap">
+          <a {% if link != blank %}href="{{ link }}"{% endif %} title="{{ title | escape }}">
+            {% if image %}
+              <img  src="{{ image | img_url: '300x' }}"
+                    alt="{{ image.alt | escape }}"
+                    data-src="{{ image | img_url: '2048x' }}"
+                    class="lazyload lazyload--fade-in"
+                    data-sizes="auto"
+                    data-srcset=" {{ image | img_url: '2048x' }} 2048w,
+                                  {{ image | img_url: '1600x' }} 1600w,
+                                  {{ image | img_url: '1200x' }} 1200w,
+                                  {{ image | img_url: '1000x' }} 1000w,
+                                  {{ image | img_url: '800x' }} 800w,
+                                  {{ image | img_url: '600x' }} 600w,
+                                  {{ image | img_url: '400x' }} 400w"
+                      />
+            {% else %}
+              {% capture i %}{% cycle "1", "2", "3", "4", "5", "6" %}{% endcapture %}
+              {{ 'collection-' | append: i | placeholder_svg_tag: 'placeholder-svg placeholder-svg--promotions' }}
+            {% endif %}
+          </a>
+        </div>
+      </div>
+    </section>
+    {% unless wide_display %}</div>{% endunless %}
+  </div>
+{% endcapture %}
+
+{% if grid_text_position == 'right' %}
+  {{ right_text }}
+{% else %}
+  {{ left_text }}
+{% endif %}

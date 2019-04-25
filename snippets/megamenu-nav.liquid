@@ -1,0 +1,179 @@
+{% assign mapMegamenuSettingsVarsArray='item,menu_handles,columns,th,bh,lh,lhw,rh,rhw'|split:',' %}
+{% for i in (1..mapMegamenuSettingsVarsArray.size) %}
+{% for setting_name in mapMegamenuSettingsVarsArray %}
+{% assign settingsId = '%setting_name%i' | replace:'%setting_name',setting_name | replace:'%i',i %}
+{% assign settingsValue = settings[settingsId] %}
+{% assign mapMegamenuDataString=mapMegamenuDataString
+    |append:setting_name
+    |append:i
+    |append:':'
+    |append:settingsValue
+    |append:'|$|'
+    %}
+    {% endfor %}
+    {% assign mapMegamenuDataString=mapMegamenuDataString|append:'|-|'%}
+    {% endfor %}
+    {% assign itemsMegamenuArray=mapMegamenuDataString|split:'|-|' %}
+    <div class="megamenu {% if settings.megamenu_center_yes %}center{% endif %} {{ department }} {{ megamenu_animation }} {% if settings.megamenu_dark %}blackout{% endif %}">
+        <ul class="menu">
+            {% for link_0 in linklists[settings.top_nav].links %}
+
+            {% assign label='' %}
+            {% if settings.labels contains link_0.title %}
+            {% assign categoriesArray=settings.labels|split:';' %}
+            {% for category in categoriesArray %}
+            {% assign categoryLabel=category|split:':' %}
+            {% if categoryLabel[0] == link_0.title %}
+            {% assign class='<span class="menu-label">' %}
+            {% if categoryLabel[2] contains 'alt' %}{% assign class='<span class="menu-label-alt">' %}{% endif %}
+            {% assign label=class|append:categoryLabel[1]|append:'</span>' %}
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+            {% assign item_index = forloop.index|minus:1 %}
+            {% assign itemOptionsArray=itemsMegamenuArray[item_index]|split:'|$|' %}
+
+
+            {% for itemOption in itemOptionsArray %}
+            {% assign key_value = itemOption | split:':' %}
+            {% case forloop.index %}
+            {% when 1 %}{% assign itemMega=key_value[1] %}
+            {% when 2 %}{% assign menu_handles=key_value[1] %}
+            {% when 3 %}{% assign columns=key_value[1] %}
+            {% when 4 %}{% assign th=key_value[1] %}
+            {% when 5 %}{% assign bh=key_value[1] %}
+            {% when 6 %}{% assign lh=key_value[1] %}
+            {% when 7 %}{% assign lhw=key_value[1] %}
+            {% when 8 %}{% assign rh=key_value[1] %}
+            {% when 9 %}{% assign rhw=key_value[1] %}
+            {% endcase %}
+            {% endfor %}
+
+
+            {% if itemMega == 'true' %}
+            <li class="mega-dropdown {% if link_0.active %}active{% endif %}">
+               <!--  {{ link_0.title | append:label | link_to: link_0.url }} -->
+
+               <a href="{{ link_0.url }}"> {% comment %}ly_code_replace_for_[ link_0.title ]_begin{% endcomment %}{% include 'ly-title' with link_0 %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %} </a>
+
+               {% assign menu_handlesArray=menu_handles|split:',' %}
+
+               {% if menu_handlesArray.size > 0 %}
+               <div class="sub-menu">
+                <div class="container">
+                  {% assign get_lh = lh | strip %}
+                  {% assign get_rh = lh | strip %}
+                    {% if get_lh !='' %}<div class="megamenu-left width-{{ lhw }}">{{ lh }}</div>{% endif %}
+                    {% if get_rh !='' %}<div class="megamenu-right width-{{ rhw }}">{{ rh }}</div>{% endif %}
+                    <div class="megamenu-categories column-2">
+                       {% assign get_th = th | strip %}
+                        {% if get_th !='' %}<div class="megamenu-top">{{ th }}</div>{% endif %}
+
+                        {% for menu_handle_value in menu_handlesArray %}
+                        {%  assign menu_handle=menu_handle_value|strip %}
+                        {% assign id_limit_img = menu_handle |split:'|' %}
+                        {% assign menu_handle=id_limit_img[0]|strip %}
+                        {% assign limit=id_limit_img[1]|strip %}
+                        {% assign image=id_limit_img[2]|strip %}
+                        {% if linklists[menu_handle].links.size > 0 %}
+                        <div class="col {% if limit.size > 0 %}truncateList{% endif %}"   data-list-items="{{ limit }}">
+                            {% assign col_title=linklists[menu_handle].links.first.title|split:'|'  %}
+
+                            <div class="category-title">
+                              {% comment %}<a href="{{ linklists[menu_handle].links.first.url }}">{{ col_title }}</a>{% endcomment %}
+                              {{ col_title }}
+                               {% comment %}  <a href="{{ linklists[menu_handle].links.first.url }}">{% include 'ly-title' with title_0 %}{{ ly_translation }}</a>   {% endcomment %}
+
+                            </div>
+                            <ul class="category-links">
+                                {% for link in  linklists[menu_handle].links %}
+                                {% if forloop.index == 1 %}
+                                {% continue %}
+                                {% assign first_link=link.title|split:'|' %}
+                                {% if first_link[1] =='hide' %}{% continue %}{% endif %}
+                                {% endif %}
+                                <li {% if link.active %}class="active"{% endif %}><a href="{{ link.url }}"> {% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %} </a> </li> 
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        {% if bh !='' %}<div class="megamenu-bottom">{{ bh }}</div>{% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </li>
+        {% else %}
+        {% comment %}Simple Dropdowns {% endcomment %}
+
+        <li class="{% if linklists[link_0.handle].links.size > 0 %}simple-dropdown{% endif %}  {% if link_0.active %}active{% endif %}"><a href="{{ link_0.url }}">{% comment %}ly_code_replace_for_[ link_0.title ]_begin{% endcomment %}{% include 'ly-title' with link_0 %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}</a>
+
+            {% if linklists[link_0.handle].links.size > 0 %}
+
+            <div class="sub-menu">
+                <div class="category-title">
+                    {% comment %}Label 1st level 1st item{% endcomment %}
+                    {% assign label='' %}
+                    {% if settings.labels contains linklists[link_0.handle].links.first.title %}
+                    {% assign categoriesArray=settings.labels|split:';' %}
+                    {% for category in categoriesArray %}
+                    {% assign categoryLabel=category|split:':' %}
+                    {% if categoryLabel[0] == linklists[link_0.handle].links.first.title %}
+                    {% assign class='<span class="menu-label">' %}
+                    {% if categoryLabel[2] contains 'alt' %}{% assign class='<span class="menu-label-alt">' %}{% endif %}
+                    {% assign label=class|append:categoryLabel[1]|append:'</span>' %}
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+
+                    <!-- it was -->
+                    {{ linklists[link_0.handle].links.first.title  | append:label | link_to: linklists[link_0.handle].links.first.url   }}    
+
+                </div>
+                <ul class="category-links ccc">
+                    {% for link_1 in linklists[link_0.handle].links %}
+                    <li>
+                        {% if forloop.index == 1 %} {% continue %} {% endif %}
+
+                        {% comment %}Label 1st level{% endcomment %}
+                        {% assign label='' %}
+                        {% if settings.labels contains link_1.title %}
+                        {% assign categoriesArray=settings.labels|split:';' %}
+                        {% for category in categoriesArray %}
+                        {% assign categoryLabel=category|split:':' %} 
+
+                        {% if categoryLabel[0] == link_1.title %}
+                        {% assign class='<span class="menu-label">' %}
+                        {% if categoryLabel[2] contains 'alt' %}{% assign class='<span class="menu-label-alt">' %}{% endif %}
+                        {% assign label=class|append:categoryLabel[1]|append:'</span>' %}
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+
+                        <!--  {{ link_1.title | append:label | link_to: link_1.url }} -->
+                        <a href="{{ link_1.url }}">{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link_1 %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}</a>
+
+                    </li>
+
+
+
+
+                    {% endfor %}
+                </ul>
+            </div>
+
+            {% endif %}
+        </li>
+        {% comment %}End Simple Dropdowns {% endcomment %}
+        {% endif %}
+        {% endfor %}
+
+        {% if settings.search_enabled %}
+        <li>
+          <a href="/search" title="<ly-as-2504431>Search</ly-as-2504431>" class="icon-search" id="search-toggle"></a>
+      </li>
+      {% endif %}</li>
+  </ul>
+</div>
+<!-- /Mega Menu 

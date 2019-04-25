@@ -1,0 +1,246 @@
+{% paginate collection.products by section.settings.pagination_limit %}
+
+{% if collection.image %}
+  <div class="slider banner-flexslider banner-section slideshow_article_darken--{{section.settings.slideshow_post_darken}} wide_display--true">
+    <ul class="slides">
+      <li>
+        <img  src="{{ collection.image | img_url: '300x' }}"
+          alt="{{ collection.image.alt }}"
+          data-src="{{ collection.image | img_url: '2048x' }}"
+          class="lazyload lazyload--fade-in full-width-image"
+          sizes="100vw"
+          srcset="  {{ collection.image | img_url: '2048x' }} 2048w,
+                    {{ collection.image | img_url: '1600x' }} 1600w,
+                    {{ collection.image | img_url: '1200x' }} 1200w,
+                    {{ collection.image | img_url: '1000x' }} 1000w,
+                    {{ collection.image | img_url: '800x' }} 800w,
+                    {{ collection.image | img_url: '600x' }} 600w,
+                    {{ collection.image | img_url: '400x' }} 400w"
+           />
+      </li>
+    </ul>
+  </div>
+{% endif %}
+
+  <div class="main_content_area content container">
+    <div class="sixteen columns breadcrumb clearfix">
+      <div class="eight columns breadcrumb_text alpha">
+        {% if section.settings.collection_breadcrumb %}
+          <span itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a href="{{ shop.url }}" title="{{ shop.name | escape }}" itemprop="item"><span itemprop="name">{{ 'general.breadcrumbs.home' | t }}</span></a></span>
+          &nbsp; / &nbsp;
+          <span itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a href="{{ collection.url }}" title="{{ collection.title | escape }}" itemprop="item"><span itemprop="name">{{ collection.title }}</span></a></span>
+          {% if current_tags %}
+            {% for tag in current_tags %}
+              &nbsp; / &nbsp;
+              <span itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a href="/collections/{% if collection.handle != blank %}{{ collection.handle }}{% else %}all{% endif %}/{{ tag | handleize }}" title="{{ tag | escape }}" itemprop="item"><span itemprop="name">{{ tag }}</span></a></span>
+            {% endfor %}
+          {% endif %}
+
+          {% if paginate.pages != 0 %}
+            &nbsp; / &nbsp; {{ 'general.breadcrumbs.page' | t: current_page: paginate.current_page, pages: paginate.pages }}
+          {% endif %}
+        {% else %}
+          &nbsp;
+        {% endif %}
+      </div>
+
+      {% if collection.handle != blank and collection.products_count > 0 %}
+        {% if section.settings.collection_tags %}
+          <div class="four columns section_select {% unless section.settings.collection_sort %}offset-by-four omega{% endunless %}">
+            {% for tag in collection.all_tags %}
+              {% if forloop.first %}
+                <label for="tag_filter" class="inline">{{ 'collections.sorting.filter' | t }}: </label>
+                <select name="tag_filter" id="tag_filter">
+                  <option {% unless current_tags %}selected="selected"{% endunless %} value="{% if collection.handle == "all" %}/collections/all{% else %}{{ collection.url }}{% endif %}">{{ 'collections.general.all_collection_title' | t: title: collection.title }}</option>
+              {% endif %}
+
+              {% unless tag contains 'meta-' %}
+                <option {% if current_tags contains tag %}selected="selected"{% endif %} value="/collections/{% if collection.handle != blank %}{{ collection.handle }}{% else %}all{% endif %}/{{ tag | handleize }}">{{ tag }}</option>
+              {% endunless %}
+
+              {% if forloop.last %}
+                </select>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+
+       {% if section.settings.collection_sort %}
+          <div class="four columns section_select omega {% unless section.settings.collection_tags %}offset-by-four{% endunless %}">
+            <label for="sort-by" class="inline">{{ 'collections.sorting.title' | t }}: </label>
+            <select id="sort-by" data-default-sort="{{ collection.sort_by | default: collection.default_sort_by }}">
+              <option value="manual">{{ 'collections.sorting.featured' | t }}</option>
+              <option value="best-selling">{{ 'collections.sorting.best_selling' | t }}</option>
+              <option value="title-ascending">{{ 'collections.sorting.az' | t }}</option>
+              <option value="title-descending">{{ 'collections.sorting.za' | t }}</option>
+              <option value="price-ascending">{{ 'collections.sorting.price_ascending' | t }}</option>
+              <option value="price-descending">{{ 'collections.sorting.price_descending' | t }}</option>
+              <option value="created-descending">{{ 'collections.sorting.date_descending' | t }}</option>
+              <option value="created-ascending">{{ 'collections.sorting.date_ascending' | t }}</option>
+            </select>
+          </div>
+        {% endif %}
+      {% endif %}
+    </div>
+
+    {% comment %}Check to see if sidebar should be enabled{% endcomment %}
+    {% if section.blocks.size > 0 %}
+      {% assign sidebar = true %}
+    {% else %}
+      {% assign sidebar = false %}
+    {% endif %}
+
+    {% if sidebar %}
+      {% include 'sidebar' %}
+      <div class="twelve columns">
+    {% else %}
+      <div class="sixteen columns">
+    {% endif %}
+
+    {% if section.settings.display_collection_title %}
+      <h1>{{ collection.title }}</h1>
+    {% endif %}
+
+    {% if collection.description != blank %}
+      <div class="section clearfix collection_description">
+        {{ collection.description }}
+      </div>
+    {% endif %}
+
+    {% if collection.products.size > 0 %}
+      {% assign products = collection.products %}
+      {% assign products_per_row = section.settings.products_per_row %}
+      {% include 'product-loop', sidebar: sidebar %}
+    {% endif %}
+
+    {% include 'pagination', sidebar: sidebar %}
+  </div>
+{% endpaginate %}
+</div>
+
+{% schema %}
+
+{
+  "name": "Collection banner",
+  "class": "collection-template-section collection-banner-template-section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_row",
+      "label": "Products per row",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "pagination_limit",
+      "label": "Products per page",
+      "min": 2,
+      "max": 50,
+      "step": 1,
+      "default": 48
+    },
+    {
+      "type": "checkbox",
+      "id": "collection_breadcrumb",
+      "label": "Show breadcrumb links",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "display_collection_title",
+      "label": "Show collection title",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "collection_tags",
+      "label": "Enable filtering by product tag"
+    },
+    {
+      "type": "checkbox",
+      "id": "collection_sort",
+      "label": "Enable collection sorting"
+    },
+    {
+      "type": "header",
+      "content": "Sidebar"
+    },
+    {
+      "type": "paragraph",
+      "content": "Create a sidebar by adding content blocks."
+    },
+    {
+      "type": "checkbox",
+      "id": "toggle",
+      "label": "Toggle sidebar content",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "filter_by_tag",
+      "name": "Tag list",
+      "limit": 1
+    },
+    {
+      "type": "filter_by_collection",
+      "name": "Collection list",
+      "limit": 1
+    },
+    {
+      "type": "filter_by_type",
+      "name": "Type list",
+      "limit": 1
+    },
+    {
+      "type": "filter_by_vendor",
+      "name": "Vendor list",
+      "limit": 1
+    },
+    {
+      "type": "menu",
+      "name": "Menu",
+      "settings": [
+        {
+          "type": "link_list",
+          "id": "custom_menu_linklist",
+          "label": "Menu"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Text area can be used for special announcements or general information.</p>"
+        }
+      ]
+    },
+    {
+      "type": "page",
+      "name": "Page",
+      "settings": [
+        {
+          "type": "page",
+          "id": "content_page",
+          "label": "Page"
+        }
+      ]
+    }
+  ]
+}
+
+{% endschema %}

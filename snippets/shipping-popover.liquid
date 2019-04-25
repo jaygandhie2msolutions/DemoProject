@@ -1,0 +1,327 @@
+{% comment %}ly_global_begin{% endcomment %}{% include 'ly-global' %}{% comment %}ly_global_end{% endcomment %}
+<div class="shipping-popover-cover"></div>
+<div class="hidden">
+  <ly-as-2504526>Shipping to:</ly-as-2504526>  {% include 'ly-languages-switcher' %}
+</div>
+
+<div id="shipping-popover-wrapper" class="shipping-popover">
+	<div class="shipping-popover-header">
+		<h2><ly-as-2504527>Select your shipping destination</ly-as-2504527></h2>
+		<div class="close-x">X</div>
+	</div>
+	<div class="shipping-contents">
+		<div class="shipping-content continents-wrap">
+			<ul class="continents">
+				<!-- new for AU-->
+                <li class="continent-item" data-target=".australia-countries-wrap"><div class="country-name">Australia &amp; New Zealand</div><div class="expand-arrow">&gt;</div></li>
+                <!-- end AU -->
+
+                <li class="continent-item" data-target=".america-countries-wrap"><div class="country-name">North &amp; Central America</div><div class="expand-arrow">&gt;</div></li>
+                <li class="continent-item" data-target=".south-america-countries-wrap"><div class="country-name"><ly-as-3301720>South America</ly-as-3301720></div><div class="expand-arrow">&gt;</div></li>
+                <li class="continent-item" data-target=".europe-countries-wrap"><div class="country-name"><ly-as-2504530>Europe</ly-as-2504530></div><div class="expand-arrow">&gt;</div></li>
+                <li class="continent-item" data-target=".asia-countries-wrap"><div class="country-name"><ly-as-3301721>Asia Pacific</ly-as-3301721></div><div class="expand-arrow">&gt;</div></li>
+                <li class="continent-item" data-target=".middle-east-countries-wrap"><div class="country-name"><ly-as-3301722>Middle East</ly-as-3301722></div><div class="expand-arrow">&gt;</div></li>
+                <li class="continent-item" data-target=".africa-countries-wrap"><div class="country-name"><ly-as-3301723>Africa</ly-as-3301723></div><div class="expand-arrow">&gt;</div></li>
+                <li class="continent-item" data-target=".row-countries-wrap"><div class="country-name"><ly-as-2504532>Rest of World</ly-as-2504532></div><div class="expand-arrow">&gt;</div></li>
+
+            </ul>
+        </div>
+        <div class="shipping-content countries-wrap">
+           <div class="countries-back-btn">&lt;  <ly-as-2504533>Continents</ly-as-2504533></div>
+
+           <!-- new AU -->
+           <div class="country-wrap australia-countries-wrap">
+              <ul class="australia-countries">
+                {% assign half = 21 %}
+                {% assign rightcol = "" %}{% assign leftcol = "" %}
+                {% for link in linklists[settings.popover_links_australia].links %}
+                {% assign: extraClass = "" %}
+                {% if forloop.index <= half %}
+                {% if rightcol == "" %}
+                {% assign: extraClass = "top-item" %}
+                {% endif %}
+                {% capture rightcol %}{% if rightcol != "" %}{{ rightcol }}|||{% endif %}
+                <li{% include 'country-lang-switcher' with link.title %} class="ly-languages-switcher-link country-list-item {{ extraClass }}" data-value="{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}"><span class="flag-icon flag-icon-{% capture fl %}{% include 'countries' with link.title %}{% endcapture %}{{ fl | strip }}"></span><a href="{{ link.url }}">{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}</a></li>
+                {% endcapture %}
+                {% else %}
+                {% if leftcol == "" %}
+                {% assign: extraClass = "top-item" %}
+                {% endif %}
+                {% capture leftcol %}{% if leftcol != "" %}{{ leftcol }}|||{% endif %}
+                <li{% include 'country-lang-switcher' with link.title %} class="ly-languages-switcher-link country-list-item {{ extraClass }}" data-value="{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}"><span class="flag-icon flag-icon-{% capture fl %}{% include 'countries' with link.title %}{% endcapture %}{{ fl | strip }}"></span>{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}</li>
+                {% endcapture %}
+                {% endif %}
+
+
+                {% endfor %}
+
+                {% assign leftcol = leftcol | split: "|||" %}
+                {% assign rightcol = rightcol | split: "|||" %}
+                {% for link in rightcol %}
+                {{ link }}
+                {% if leftcol[forloop.index0] %}{{ leftcol[forloop.index0] }}
+                {% else %}<li class="country-list-item country-list-item-empty{% if forloop.index0 == 0 %} top-item{% endif %}"></li>
+                {% endif %}
+                {% endfor %}
+
+            </ul>
+        </div>
+        <!-- end new AU -->
+        <!-- begin south-america-countries -->
+        <div class="country-wrap south-america-countries-wrap">
+          <ul class="south-america-countries">
+            {% assign half = 21 %}
+            {% assign rightcol = "" %}{% assign leftcol = "" %}
+            {% for link in linklists[settings.popover_links_south_america].links %}
+            {% assign: extraClass = "" %}
+            {% if forloop.index <= half %}
+            {% if rightcol == "" %}
+            {% assign: extraClass = "top-item" %}
+            {% endif %}
+            {% capture rightcol %}{% if rightcol != "" %}{{ rightcol }}|||{% endif %}
+            <li{% include 'country-lang-switcher' with link.title %} class="ly-languages-switcher-link current_lang country-list-item {{ extraClass }}" data-value="{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}"><span class="flag-icon flag-icon-{% capture fl %}{% include 'countries' with link.title %}{% endcapture %}{{ fl | strip }}"></span>{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}</li>
+            {% endcapture %}
+            {% else %}
+            {% if leftcol == "" %}
+            {% assign: extraClass = "top-item" %}
+            {% endif %}
+            {% capture leftcol %}{% if leftcol != "" %}{{ leftcol }}|||{% endif %}
+            <li{% include 'country-lang-switcher' with link.title %} class="ly-languages-switcher-link current_lang country-list-item {{ extraClass }}" data-value="{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}"><span class="flag-icon flag-icon-{% capture fl %}{% include 'countries' with link.title %}{% endcapture %}{{ fl | strip }}"></span>{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}</li>
+            {% endcapture %}
+            {% endif %}
+
+            {% endfor %}
+
+            {% assign leftcol = leftcol | split: "|||" %}
+            {% assign rightcol = rightcol | split: "|||" %}
+
+            {% for link in rightcol %}
+            {{ link }}
+            {% if leftcol[forloop.index0] %}{{ leftcol[forloop.index0] }}
+            {% else %}<li class="country-list-item country-list-item-empty{% if forloop.index0 == 0 %} top-item{% endif %}"></li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+    </div> 
+    <!-- end south-america-countries -->    
+
+    <!-- begin middle-east -->
+    <div class="country-wrap middle-east-countries-wrap">
+      <ul class="middle-countries">
+        {% assign half = 21 %}
+        {% assign rightcol = "" %}{% assign leftcol = "" %}
+        {% for link in linklists[settings.popover_links_middle_east].links %}
+        {% assign: extraClass = "" %}
+        {% if forloop.index <= half %}
+        {% if rightcol == "" %}
+        {% assign: extraClass = "top-item" %}
+        {% endif %}
+        {% capture rightcol %}{% if rightcol != "" %}{{ rightcol }}|||{% endif %}
+        <li{% include 'country-lang-switcher' with link.title %} class="ly-languages-switcher-link current_lang country-list-item {{ extraClass }}" data-value="{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}"><span class="flag-icon flag-icon-{% capture fl %}{% include 'countries' with link.title %}{% endcapture %}{{ fl | strip }}"></span>{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}</li>
+        {% endcapture %}
+        {% else %}
+        {% if leftcol == "" %}
+        {% assign: extraClass = "top-item" %}
+        {% endif %}
+        {% capture leftcol %}{% if leftcol != "" %}{{ leftcol }}|||{% endif %}
+        <li{% include 'country-lang-switcher' with link.title %} class="ly-languages-switcher-link current_lang country-list-item {{ extraClass }}" data-value="{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}"><span class="flag-icon flag-icon-{% capture fl %}{% include 'countries' with link.title %}{% endcapture %}{{ fl | strip }}"></span>{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}</li>
+        {% endcapture %}
+        {% endif %}
+
+        {% endfor %}
+
+        {% assign leftcol = leftcol | split: "|||" %}
+        {% assign rightcol = rightcol | split: "|||" %}
+
+        {% for link in rightcol %}
+        {{ link }}
+        {% if leftcol[forloop.index0] %}{{ leftcol[forloop.index0] }}
+       
+        {% endif %}
+        {% endfor %}
+    </ul>
+</div> 
+<!-- end middle-east -->    
+<!-- begin africa -->
+<div class="country-wrap africa-countries-wrap">
+  <ul class="africa-countries">
+    {% assign half = 21 %}
+    {% assign rightcol = "" %}{% assign leftcol = "" %}
+    {% for link in linklists[settings.popover_links_africa].links %}
+    {% assign: extraClass = "" %}
+    {% if forloop.index <= half %}
+    {% if rightcol == "" %}
+    {% assign: extraClass = "top-item" %}
+    {% endif %}
+    {% capture rightcol %}{% if rightcol != "" %}{{ rightcol }}|||{% endif %}
+    <li{% include 'country-lang-switcher' with link.title %} class="ly-languages-switcher-link current_lang country-list-item {{ extraClass }}" data-value="{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}"><span class="flag-icon flag-icon-{% capture fl %}{% include 'countries' with link.title %}{% endcapture %}{{ fl | strip }}"></span>{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}</li>
+    {% endcapture %}
+    {% else %}
+    {% if leftcol == "" %}
+    {% assign: extraClass = "top-item" %}
+    {% endif %}
+    {% capture leftcol %}{% if leftcol != "" %}{{ leftcol }}|||{% endif %}
+    <li{% include 'country-lang-switcher' with link.title %} class="ly-languages-switcher-link current_lang country-list-item {{ extraClass }}" data-value="{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}"><span class="flag-icon flag-icon-{% capture fl %}{% include 'countries' with link.title %}{% endcapture %}{{ fl | strip }}"></span>{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}</li>
+    {% endcapture %}
+    {% endif %}
+
+    {% endfor %}
+
+    {% assign leftcol = leftcol | split: "|||" %}
+    {% assign rightcol = rightcol | split: "|||" %}
+
+    {% for link in rightcol %}
+    {{ link }}
+    {% if leftcol[forloop.index0] %}{{ leftcol[forloop.index0] }}
+   
+    {% endif %}
+    {% endfor %}
+</ul>
+</div> 
+<!-- end africa -->
+<div class="country-wrap america-countries-wrap">
+  <ul class="america-countries">
+    {% assign half = 21 %}
+    {% assign rightcol = "" %}{% assign leftcol = "" %}
+    {% for link in linklists[settings.popover_links_americas].links %}
+    {% assign: extraClass = "" %}
+    {% if forloop.index <= half %}
+    {% if rightcol == "" %}
+    {% assign: extraClass = "top-item" %}
+    {% endif %}
+    {% capture rightcol %}{% if rightcol != "" %}{{ rightcol }}|||{% endif %}
+    <li{% include 'country-lang-switcher' with link.title %} class="ly-languages-switcher-link current_lang country-list-item {{ extraClass }}" data-value="{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}"><span class="flag-icon flag-icon-{% capture fl %}{% include 'countries' with link.title %}{% endcapture %}{{ fl | strip }}"></span>{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}</li>
+    {% endcapture %}
+    {% else %}
+    {% if leftcol == "" %}
+    {% assign: extraClass = "top-item" %}
+    {% endif %}
+    {% capture leftcol %}{% if leftcol != "" %}{{ leftcol }}|||{% endif %}
+    <li{% include 'country-lang-switcher' with link.title %} class="ly-languages-switcher-link current_lang country-list-item {{ extraClass }}" data-value="{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}"><span class="flag-icon flag-icon-{% capture fl %}{% include 'countries' with link.title %}{% endcapture %}{{ fl | strip }}"></span>{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}</li>
+    {% endcapture %}
+    {% endif %}
+
+    {% endfor %}
+
+    {% assign leftcol = leftcol | split: "|||" %}
+    {% assign rightcol = rightcol | split: "|||" %}
+
+    {% for link in rightcol %}
+    {{ link }}
+    {% if leftcol[forloop.index0] %}{{ leftcol[forloop.index0] }}
+    {% else %}<li class="country-list-item country-list-item-empty{% if forloop.index0 == 0 %} top-item{% endif %}"></li>
+    {% endif %}
+    {% endfor %}
+</ul>
+</div>
+<div class="country-wrap europe-countries-wrap">
+  <ul class="europe-countries">
+    {% assign half = 21 %}
+    {% assign rightcol = "" %}{% assign leftcol = "" %}
+    {% for link in linklists[settings.popover_links_europe].links %}
+    {% assign: extraClass = "" %}
+    {% if forloop.index <= half %}
+    {% if rightcol == "" %}
+    {% assign: extraClass = "top-item" %}
+    {% endif %}
+    {% capture rightcol %}{% if rightcol != "" %}{{ rightcol }}|||{% endif %}
+    <li{% include 'country-lang-switcher' with link.title %} class="ly-languages-switcher-link country-list-item {{ extraClass }}" data-value="{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}"><span class="flag-icon flag-icon-{% capture fl %}{% include 'countries' with link.title %}{% endcapture %}{{ fl | strip }}"></span>{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}</li>
+    {% endcapture %}
+    {% else %}
+    {% if leftcol == "" %}
+    {% assign: extraClass = "top-item" %}
+    {% endif %}
+    {% capture leftcol %}{{ leftcol }}{% if leftcol != "" %}|||{% endif %}
+    <li{% include 'country-lang-switcher' with link.title %} class="ly-languages-switcher-link country-list-item {{ extraClass }}" data-value="{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}"><span class="flag-icon flag-icon-{% capture fl %}{% include 'countries' with link.title %}{% endcapture %}{{ fl | strip }}"></span>{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}</li>
+    {% endcapture %}
+    {% endif %}
+
+
+    {% endfor %}
+
+    {% assign leftcol = leftcol | split: "|||"   %}
+    {% assign rightcol = rightcol | split: "|||"  %}
+
+    {% for link in rightcol %}
+    {{ link }}
+    {% if leftcol[forloop.index0] %}{{ leftcol[forloop.index0] }}
+    {% else %}<li class="country-list-item country-list-item-empty{% if forloop.index0 == 0 %} top-item{% endif %}"></li>
+    {% endif %}
+    {% endfor %}
+</ul>
+</div>
+<div class="country-wrap asia-countries-wrap">
+  <ul class="asia-countries">
+    {% assign half = 21 %}
+    {% assign rightcol = "" %}{% assign leftcol = "" %}
+    {% for link in linklists[settings.popover_links_asia].links %}
+    {% assign: extraClass = "" %}
+    {% if forloop.index <= half %}
+    {% if rightcol == "" %}
+    {% assign: extraClass = "top-item" %}
+    {% endif %}
+    {% capture rightcol %}{% if rightcol != "" %}{{ rightcol }}|||{% endif %}
+    <li{% include 'country-lang-switcher' with link.title %} class="ly-languages-switcher-link country-list-item {{ extraClass }}" data-value="{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}"><span class="flag-icon flag-icon-{% capture fl %}{% include 'countries' with link.title %}{% endcapture %}{{ fl | strip }}"></span>{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}</li>
+    {% endcapture %}
+    {% else %}
+    {% if leftcol == "" %}
+    {% assign: extraClass = "top-item" %}
+    {% endif %}
+    {% capture leftcol %}{% if leftcol != "" %}{{ leftcol }}|||{% endif %}
+    <li{% include 'country-lang-switcher' with link.title %} class="ly-languages-switcher-link country-list-item {{ extraClass }}" data-value="{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}"><span class="flag-icon flag-icon-{% capture fl %}{% include 'countries' with link.title %}{% endcapture %}{{ fl | strip }}"></span>{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}</li>
+    {% endcapture %}
+    {% endif %}
+
+
+    {% endfor %}
+
+    {% assign leftcol = leftcol | split: "|||" %}
+    {% assign rightcol = rightcol | split: "|||" %}
+
+    {% for link in rightcol %}
+    {{ link }}
+    {% if leftcol[forloop.index0] %}{{ leftcol[forloop.index0] }}
+    {% else %}<li class="country-list-item country-list-item-empty{% if forloop.index0 == 0 %} top-item{% endif %}"></li>
+    {% endif %}
+    {% endfor %}
+</ul>
+</div>
+<div class="country-wrap row-countries-wrap">
+  <ul class="row-countries">
+    {% assign half = 21 %}
+    {% assign rightcol = "" %}{% assign leftcol = "" %}
+    {% for link in linklists[settings.popover_links_row].links %}
+    {% assign: extraClass = "" %}
+    {% if forloop.index <= half %}
+    {% if rightcol == "" %}
+    {% assign: extraClass = "top-item" %}
+    {% endif %}
+    {% capture rightcol %}{% if rightcol != "" %}{{ rightcol }}|||{% endif %}
+    <li{% include 'country-lang-switcher' with link.title %} class="ly-languages-switcher-link country-list-item {{ extraClass }}" data-value="{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}"><span class="flag-icon flag-icon-{% capture fl %}{% include 'countries' with link.title %}{% endcapture %}{{ fl | strip }}"></span>{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}</li>
+    {% endcapture %}
+    {% else %}
+    {% if leftcol == "" %}
+    {% assign: extraClass = "top-item" %}
+    {% endif %}
+    {% capture leftcol %}{% if leftcol != "" %}{{ leftcol }}|||{% endif %}
+    <li{% include 'country-lang-switcher' with link.title %} class="ly-languages-switcher-link country-list-item {{ extraClass }}" data-value="{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}"><span class="flag-icon flag-icon-{% capture fl %}{% include 'countries' with link.title %}{% endcapture %}{{ fl | strip }}"></span>{% comment %}ly_code_replace_for_[ link.title ]_begin{% endcomment %}{% include 'ly-title' with link %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}</li>
+    {% endcapture %}
+    {% endif %}
+
+
+    {% endfor %}
+
+    {% assign leftcol = leftcol | split: "|||" %}
+    {% assign rightcol = rightcol | split: "|||" %}
+
+    {% for link in rightcol %}
+    {{ link }}
+    {% if leftcol[forloop.index0] %}{{ leftcol[forloop.index0] }}
+    {% else %}<li class="country-list-item country-list-item-empty{% if forloop.index0 == 0 %} top-item{% endif %}"></li>
+    {% endif %}
+    {% endfor %}
+</ul>
+</div>
+</div>
+</div>
+</div>

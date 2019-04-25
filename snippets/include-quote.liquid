@@ -1,0 +1,13 @@
+{% if type == 'block' %}
+  {% assign page_quote = block.settings.page_quote %}
+{% else %}
+  {% assign page_quote = section.settings.page_quote %}
+{% endif %}
+
+<div class="container">
+  <div class="sixteen columns">
+    <div class="page-quote">
+      {{ page_quote }}
+    </div>
+  </div>
+</div>

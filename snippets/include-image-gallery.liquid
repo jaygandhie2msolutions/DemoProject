@@ -1,0 +1,80 @@
+{% if type == 'block' %}
+  {% assign page_detail_image_1 = block.settings.page_detail_image_1 %}
+  {% assign page_detail_image_2 = block.settings.page_detail_image_2 %}
+  {% assign page_detail_image_3 = block.settings.page_detail_image_3 %}
+{% else %}
+  {% assign page_detail_image_1 = section.settings.page_detail_image_1 %}
+  {% assign page_detail_image_2 = section.settings.page_detail_image_2 %}
+  {% assign page_detail_image_3 = section.settings.page_detail_image_3 %}
+{% endif %}
+
+<div class="container">
+  <div class="sixteen columns">
+    <div class="one-third column alpha thumbnail">
+      {% if page_detail_image_1 %}
+        <a href="{{ page_detail_image_1 | img_url: '1520x' }}" class="lightbox" rel="detail-gallery">
+          <img  src="{{ page_detail_image_1.src | img_url: '300x' }}"
+                class="lazyload lazyload--fade-in"
+                alt="{{ page_detail_image_1.alt }}"
+                style="max-width: {{- page_detail_image_1.width -}}px;"
+                data-sizes="auto"
+                data-src="{{ page_detail_image_1 | img_url: '2048x' }}"
+                data-srcset=" {{ page_detail_image_1 | img_url: '2048x' }} 2048w,
+                              {{ page_detail_image_1 | img_url: '1600x' }} 1600w,
+                              {{ page_detail_image_1 | img_url: '1200x' }} 1200w,
+                              {{ page_detail_image_1 | img_url: '1000x' }} 1000w,
+                              {{ page_detail_image_1 | img_url: '800x' }} 800w,
+                              {{ page_detail_image_1 | img_url: '600x' }} 600w,
+                              {{ page_detail_image_1 | img_url: '400x' }} 400w"
+                />
+        </a>
+      {% else %}
+        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% endif %}
+    </div>
+    <div class="one-third column thumbnail">
+      {% if page_detail_image_2 %}
+        <a href="{{ page_detail_image_2 | img_url: '1520x' }}" class="lightbox" rel="detail-gallery">
+          <img  src="{{ page_detail_image_2.src | img_url: '300x' }}"
+                class="lazyload lazyload--fade-in"
+                alt="{{ page_detail_image_2.alt }}"
+                style="max-width: {{- page_detail_image_2.width -}}px;"
+                data-sizes="auto"
+                data-src="{{ page_detail_image_2 | img_url: '2048x' }}"
+                data-srcset=" {{ page_detail_image_2 | img_url: '2048x' }} 2048w,
+                              {{ page_detail_image_2 | img_url: '1600x' }} 1600w,
+                              {{ page_detail_image_2 | img_url: '1200x' }} 1200w,
+                              {{ page_detail_image_2 | img_url: '1000x' }} 1000w,
+                              {{ page_detail_image_2 | img_url: '800x' }} 800w,
+                              {{ page_detail_image_2 | img_url: '600x' }} 600w,
+                              {{ page_detail_image_2 | img_url: '400x' }} 400w"
+                />
+        </a>
+      {% else %}
+        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% endif %}
+    </div>
+    <div class="one-third column omega thumbnail">
+      {% if page_detail_image_3 %}
+        <a href="{{ page_detail_image_3 | img_url: '1520x' }}" class="lightbox" rel="detail-gallery">
+          <img  src="{{ page_detail_image_3.src | img_url: '300x' }}"
+                class="lazyload lazyload--fade-in"
+                alt="{{ page_detail_image_3.alt }}"
+                style="max-width: {{- page_detail_image_3.width -}}px;"
+                data-sizes="auto"
+                data-src="{{ page_detail_image_3 | img_url: '2048x' }}"
+                data-srcset=" {{ page_detail_image_3 | img_url: '2048x' }} 2048w,
+                              {{ page_detail_image_3 | img_url: '1600x' }} 1600w,
+                              {{ page_detail_image_3 | img_url: '1200x' }} 1200w,
+                              {{ page_detail_image_3 | img_url: '1000x' }} 1000w,
+                              {{ page_detail_image_3 | img_url: '800x' }} 800w,
+                              {{ page_detail_image_3 | img_url: '600x' }} 600w,
+                              {{ page_detail_image_3 | img_url: '400x' }} 400w"
+                />
+        </a>
+      {% else %}
+        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% endif %}
+    </div>
+  </div>
+</div>

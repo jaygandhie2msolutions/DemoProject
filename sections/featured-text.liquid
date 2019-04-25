@@ -1,0 +1,147 @@
+{% comment %}
+** Rich text - homepage partial **
+- Draggable section
+{% endcomment %}
+
+<div class="homepage_content clearfix">
+  <div class="container">
+    <div class="sixteen columns">
+      <div class="section {{ section.settings.text_alignment }} clearfix ">
+        <div class="content_padding">
+          {% if section.settings.image %}
+            <img  src="{{ section.settings.image.src | img_url: '300x' }}"
+                  class="lazyload lazyload--fade-in"
+                  alt="{{ section.settings.image.alt }}"
+                  style="max-width: 200px;"
+                  data-sizes="auto"
+                  data-src="{{ section.settings.image | img_url: '2048x' }}"
+                  data-srcset=" {{ section.settings.image | img_url: '2048x' }} 2048w,
+                                {{ section.settings.image | img_url: '1600x' }} 1600w,
+                                {{ section.settings.image | img_url: '1200x' }} 1200w,
+                                {{ section.settings.image | img_url: '1000x' }} 1000w,
+                                {{ section.settings.image | img_url: '800x' }} 800w,
+                                {{ section.settings.image | img_url: '600x' }} 600w,
+                                {{ section.settings.image | img_url: '400x' }} 400w"
+                  />
+          {% endif %}
+
+          {% if section.settings.title != blank %}
+            <h2 class="title">
+              {{ section.settings.title | escape }}
+            </h2>
+          {% endif %}
+
+          <div class="{{ section.settings.text_size }}">
+            {% if section.settings.content != blank %}
+              {{ section.settings.content }}
+            {% endif %}
+
+            {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+              <a href="{{ section.settings.button_link }}">
+                {{ section.settings.button_label | escape }}
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.headline-section .homepage_content {
+  background-color: {{ settings.shop_home_page_content_bg_color }};
+}
+{% unless section.settings.wide_display %}
+  .headline-section .homepage_content {
+    background-color: transparent;
+  }
+  .headline-section .homepage_content div.container {
+    background-color: {{ settings.shop_home_page_content_bg_color }};
+  }
+{% endunless %}
+</style>
+
+{% schema %}
+  {
+    "name": "Rich text",
+    "class": "headline-section featured-content-section",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Logo"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Talk about your brand"
+      },
+      {
+        "type": "richtext",
+        "id": "content",
+        "label": "Text",
+        "default": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+      },
+      {
+        "type": "select",
+        "id": "text_size",
+        "label": "Text size",
+        "options": [
+          {
+            "value": "regular_text",
+            "label": "Regular"
+          },
+          {
+            "value": "featured_text",
+            "label": "Large"
+          }
+        ],
+        "default": "featured_text"
+      },
+      {
+        "type": "select",
+        "id": "text_alignment",
+        "label": "Text alignment",
+        "options": [
+          {
+            "value": "align_left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "align_right",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "text",
+        "id": "button_label",
+        "label": "Link label"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Link"
+      },
+      {
+        "type": "checkbox",
+        "id": "wide_display",
+        "default": true,
+        "label": "Wide display"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Rich text",
+        "category": "Text"
+      }
+    ]
+  }
+{% endschema %}

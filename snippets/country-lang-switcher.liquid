@@ -1,0 +1,8 @@
+{% comment %}ly_global_begin{% endcomment %}{% include 'ly-global' %}{% comment %}ly_global_end{% endcomment %}
+{% assign spanish = "Spain,Argentina,Colombia,Mexico,Bolivia,Chile,Cuba,Costa Rica,Dominican Republic,Ecuador,El Salvador,Guatemala,Honduras,Nicaragua,Paraguay,Peru,Uruguay,Venezuela" | split: "," %}
+{% assign german = "Schweiz (DE),Austria,Deutschland (DE)" | split: "," %}
+{% assign chineese = "中国大陆 (SC)   " | split: "," %}
+{% if spanish contains country-lang-switcher %} <ly-as-2515668>id="ly6521"</ly-as-2515668>
+{% elsif german contains country-lang-switcher %} <ly-as-2515669>id="ly4414"</ly-as-2515669>
+{% elsif chineese contains country-lang-switcher %} <ly-as-2515670>id="ly2823"</ly-as-2515670>
+{% else %} <ly-as-2515671>id="ly2821"</ly-as-2515671>{% endif %}

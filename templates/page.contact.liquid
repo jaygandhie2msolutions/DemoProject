@@ -1,0 +1,59 @@
+<div class="page page-content">
+<div class="container static-page-promo">
+{% comment %}ly_global_begin{% endcomment %}{% include 'ly-global' %}{% comment %}ly_global_end{% endcomment %}
+<div class="sixteen columns clearfix collection_nav page_content">
+  <h1 class="collection_title">
+    {% comment %}ly_code_replace_for_[ page.title ]_begin{% endcomment %}{% include 'ly-title' with page %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}
+  </h1>
+</div>
+
+{% form 'contact' %}
+  {% if form.posted_successfully? %}
+    <p class="quote">Thanks for contacting us! We'll get back to you as soon as possible.</p>
+  {% endif %}
+
+  {% if form.errors %}
+    <p class="quote"><ly-as-2504730>Not all the fields have been filled in correctly. Please try again.</ly-as-2504730></p>
+  {% endif %}
+
+  <div class="five columns page">
+    {% comment %}ly_code_replace_for_[ page.content ]_begin{% endcomment %}{% include 'ly-content' with page %}{{ ly_translation }}{% comment %}ly_code_replace_end{% endcomment %}
+  </div>
+  
+  {% if settings.contact_address != blank %}
+    <br class="clear" />
+    <br class="clear" />
+    <div class="ten columns">
+      <iframe width="100%" height="340" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q={{ settings.contact_address | replace: ' ', '+' }}&amp;z={{ settings.zoom_level }}&amp;output=embed"></iframe>
+    </div>
+  {% endif %}
+
+  <div class="six columns ">
+    <br class="clear" />
+    <div class="three columns alpha">
+     <label for="contact_form_name">Name <span class="red">*</span></label>
+     <input type="text" id="contact_form_name" name="contact[name]" required value="{{ contact.fields.name }}" />
+    </div>
+    <div class="three columns omega">
+     <label for="contact_form_email">Email <span class="red">*</span></label>
+     <input type="text" id="contact_form_email" name="contact[email]" required pattern="[^ @]*@[^ @]*" value="{{ contact.fields.email }}"/>
+    </div>
+
+    <!--
+    <label for="contact_form_phone"><ly-as-2504733>Phone Number</ly-as-2504733></label>
+    <input type="text" id="contact_form_phone" name="contact[phone]" value="{{ contact.fields.phone }}" />
+    -->
+
+   <label for="contact_message">Message</label>       
+   <textarea id="contact_message" name="contact[body]" required rows="5">{{ contact.fields.body }}</textarea>
+
+    <input type='submit' class="submit action_button add_to_cart" value="Send" />
+  </div>
+
+  <br class="clear" />
+  <br class="clear" />
+
+{% endform %}
+</div>
+</div>
+  

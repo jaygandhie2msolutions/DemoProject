@@ -1,0 +1,347 @@
+.myClose2{
+    background-position: 0 0px;
+}
+
+.fancybox-skin{
+    padding: 0 !important;
+    border-radius: 0;
+}
+
+/*begin page world*/
+.page-world{
+    div.container{
+        padding: 0;
+    }
+    .logo{
+        /*margin-bottom: 20px;*/
+        a{
+            margin: 40px auto 0 auto;
+        }
+    }
+    #menu{
+        display: block;
+        border: none;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+        margin-top: 37px;
+        li{
+            display: inline-block;
+            position: relative;
+            margin: 0;
+            border: 0;
+            padding: 0 40px;
+            a{
+                padding-bottom: 16px;
+                letter-spacing: 0px;
+                span{
+                    display: block;
+                    font-size: 17px;
+                    font-weight: bold;
+                    color: #000;
+                    text-transform: capitalize;
+                    padding: 15px 0;
+                }
+                &:hover,
+                &:focus{
+                    text-decoration: none;
+                }
+                .thumbnail{
+                    margin-bottom: 0;
+                    border-radius: 0;
+                    display: inline-block;
+                    border: 2px solid #c5c7c9;
+                }
+            }
+        }
+        .active{
+
+            a{
+                img{
+                    border:2px solid #000;
+                }
+                &:hover,
+                &:focus{
+                    .thumbnail{
+                        border:2px solid #000;
+                    }
+                }
+                span{
+                    border-bottom: 2px solid #000;
+                    position: relative;
+                    z-index: 1;
+                }
+            }
+        }
+    }
+
+    hr{
+        margin: -40px 40px 20px;
+    }
+
+    .col-xs-15,
+    .col-sm-15,
+    .col-md-15,
+    .col-lg-15 {
+        position: relative;
+        min-height: 1px;
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .col-xs-15 {
+  /*  width: 20%;
+  float: left;*/
+  width: 16%;
+  float: left;
+  margin: 0 0 15px 15px;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 12px;
+  &:hover,
+  &:focus{
+    cursor:pointer;
+}
+.flag-icon{
+    margin: 4px 5px 0 0;
+    float: left;
+
+}
+a{
+    float: left;
+    padding: 0;
+    &:hover{
+        background-color: transparent;
+        text-decoration:underline;
+    }
+    &:focus{
+        background-color: transparent;
+    }
+    &:active{
+        background-color: transparent;
+    }
+}
+}
+.tab-content{
+
+    .tab-pane{
+        margin-left: 0;
+
+    }
+    .active{
+
+    }
+    .australia-countries{
+        a{
+            display: inline-block;
+            padding: 0;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            color: #444;
+            &:hover,
+            &:focus{
+                background:transparent;
+            }
+        }
+    }
+}
+
+#asia{
+    .asia-countries {
+        .ly-languages-switcher-link:nth-child(3){
+            .flag-icon{
+            background-image: url(China-icon.png);
+        }
+        }
+        .ly-languages-switcher-link:nth-child(5),
+        .ly-languages-switcher-link:nth-child(7){ 
+            .flag-icon{
+                background-image: url(jp.svg);
+            }
+        }
+    }
+}
+
+
+/*responsive*/
+@media only screen and (max-width: 767px) {
+   .logo{
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.col-sm-15 {
+    width: 20%;
+    float: left;
+}
+.container{
+    width: auto;
+    padding: 20px 0 0;
+    .sixteen.columns{
+        width: 100%;
+    }
+}
+
+.collection_title{
+    font-size: 30px;
+    line-height: inherit;
+    padding: 0;
+}
+#menu li{
+    display: block;
+    padding: 0;
+    border-top: 1px solid #c5c7c9; 
+    a span{
+        padding: 15px;
+        text-align: left;
+    }
+}
+
+
+
+/* colapse arrows top/bottom */
+.panel-heading .accordion-toggle:after{
+    font-family: 'FontAwesome'; 
+    content: "\f068";     
+    float: right;       
+    color: #333333;
+    font-size: 20px;
+    margin-right: .4em;    
+}
+
+.panel-heading .accordion-toggle.collapsed:after {
+    content: "\f067";   
+}
+
+/*end colapse */
+
+.nav-stacked{
+    margin-left: 13px;
+}
+.nav-stacked > li > a{
+
+    font-size: 18px;
+    color: #0066ff;
+    padding: 0;
+}
+
+.nav-stacked > li > a:hover{
+    background: transparent;
+}
+
+.fancybox-inner,
+.fancybox-lock .fancybox-overlay{
+    height: 100% !important;
+    width: 100% !important;
+}
+
+
+
+.panel-group{
+    margin-top: 30px;
+}
+.panel-title > a {
+    color: #333333;
+    font-size: 17px;
+    font-weight: bold;
+    display: block;
+}
+.panel-title > a:hover,
+.panel-title > a:focus{
+    text-decoration: none;
+} 
+.panel-body {
+    .nav-pills{
+        margin-left: 0;
+        li{
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            display: inline-block;
+            .flag-icon{
+                margin-right: 10px;
+            }
+        }
+        a{
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            display: inline-block;
+            padding: 0;
+            &:hover,
+            &:focus{
+                background:transparent;
+            }
+        }
+    }
+}
+.panel-heading{
+    padding: 10px 15px;
+}
+.panel-group .panel{
+    border-radius: 0;
+}
+.panel-group .panel + .panel {
+    margin-top: -1px;
+}
+.panel-default > .panel-heading{
+    background-color: #f9f9f9;
+}
+.country-wrap .col-xs-12{
+  width: 60%;
+}
+
+.asia-countries-wrap{
+    .asia-countries {
+        .ly-languages-switcher-link:nth-child(3){
+            .flag-icon{
+            background-image: url(China-icon.png);
+        }
+        }
+        .ly-languages-switcher-link:nth-child(5),
+        .ly-languages-switcher-link:nth-child(7){ 
+            .flag-icon{
+                background-image: url(jp.svg);
+            }
+        }
+    }
+}
+
+}
+@media only screen and (min-width: 768px) and (max-width: 992px){
+
+    #menu li{
+        padding: 0;
+    }
+    .col-xs-15{
+        margin: 0 0 15px 15px;
+        width: 18%;
+    }
+}
+@media only screen and (min-width: 993px) and (max-width: 1200px){
+
+    #menu li{
+        padding: 0 20px;
+    }
+    .col-xs-15{
+        width: 20%;
+        margin: 0 0 20px 15px;
+    }
+
+}
+@media only screen and (min-width: 1201px) and (max-width: 1440px){
+ .col-xs-15{
+    width: 15%;
+    margin: 0 0 15px 15px;
+}
+}
+}
+
+/*end page world*/
+
+@media only screen and (max-width: 767px) {
+    .fancybox-inner{
+        height: 100% !important;
+    }
+
+}

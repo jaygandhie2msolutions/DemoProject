@@ -1,0 +1,224 @@
+<div class="page-content">
+<div class="main_content_area content container">
+<div class="sixteen columns clearfix collection_nav">
+
+  
+  
+{% assign shipping_value = 30000 %}
+{% assign cart_total = cart.total_price %}
+{% assign shipping_value_left = shipping_value | minus: cart_total %}
+
+  
+  
+  
+  <p class="shipping-savings-message">
+    {% if shipping_value_left > 0 %}
+    You're {{ shipping_value_left | money }} away from free shipping.<br/>
+    <a href="/collections/all">Continue shopping.</a> 
+    {% else %}
+    You've got free shipping!
+    {% endif %}
+  </p>
+  
+  <h1 class="collection_title">{{ 'cart.general.title' | t }}</h1>
+
+  {% if cart.item_count > 0 %}
+    <div class="continue_shopping">
+      <a href="{% if cart.items.first.product.collections != blank %}{{ cart.items.first.product.collections.last.url }}{% else %}/collections/all{% endif %}">{{ 'cart.general.continue_shopping_link_html' | t }}</a>
+    </div>
+  {% endif %}
+</div>
+
+{% if cart.item_count == 0 %}
+  <div class="sixteen columns">
+    <div class="section clearfix">
+      <p class="quote">{{ 'cart.general.continue_browsing_html' | t }}</p>
+    </div>
+  </div>
+{% else %}
+  <form action="/cart" method="post" id="cart_form">
+    <div class="section clearfix">
+      <div class="ten columns cart_items">
+
+        <h4 class="title">{{ 'cart.general.products' | t }}</h4>
+
+        {% for item in cart.items %}
+        
+          {% include 'saw_compute_discount' with item.product %}
+          {% include 'saw_variant' with item.variant %}
+        
+          <div class="item--{{ item.id }}">
+            <div class="five columns alpha">
+              <a href="{{ item.url }}" title="{{ item.title | escape }}" class="cart_page_image">
+                <img  src="{{ item | img_url: '300x' }}"
+                      alt="{{ item.title | escape }}"
+                      class="lazyload lazyload--fade-in"
+                      style="max-width: {{- item.image.width -}}px"
+                      data-sizes="auto"
+                      data-src="{{ item | img_url: '900x' }}"
+                      data-srcset=" {{ item | img_url: '2048x' }} 2048w,
+                                    {{ item | img_url: '1600x' }} 1600w,
+                                    {{ item | img_url: '1200x' }} 1200w,
+                                    {{ item | img_url: '1000x' }} 1000w,
+                                    {{ item | img_url: '800x' }} 800w,
+                                    {{ item | img_url: '600x' }} 600w,
+                                    {{ item | img_url: '400x' }} 400w"
+                      />
+              </a>
+            </div>
+
+            <div class="five columns omega">
+              <p>
+                <a href="{{ item.url }}">
+                  {{ item.product.title }}
+                </a>
+              </p>
+
+              {% comment %}
+              {% unless item.product.has_only_default_variant or item.variant.title contains "Title" %}
+                <p class="meta">
+                  {% for option in item.product.options %}
+                    <span class="label">{{ option }}:</span> <span>{{ item.variant.options[forloop.index0] }}</span><br />
+                  {% endfor %}
+                </p>
+              {% endunless %}
+              {% endcomment %}
+
+              {% if item.properties %}
+                <p>
+                  {% for p in item.properties %}
+                    {% unless p.last == blank %}
+                      {% if p.last contains '/uploads/' %}
+                        {{ p.first }}: <a class="lightbox" href="{{ p.last }}">{{ 'cart.general.uploaded_file' | t }}</a><br />
+                      {% else %}
+                        {{ p.first }}: {{ p.last }}<br />
+                      {% endif %}
+                    {% endunless %}
+                  {% endfor %}
+                </p>
+              {% endif %}
+
+              <p class="price_total">
+                <span class="money">
+                  {% if saw_has_discount == false or saw_variant_price >= saw_variant_compare_at_price %}
+                  	{{ item.price | money_with_currency }}
+                  {% else %}
+                    {{ saw_variant_price | money_with_currency }}
+                    <del>{{ saw_variant_compare_at_price | money_with_currency }}</del>
+                  {% endif %}
+                </span>
+              </p>
+
+              <p id="quantity_{{ forloop.index }}">
+                <label for="updates_{{ item.id }}" class="quantity_label">{{ 'cart.general.quantity' | t }}:</label>
+                <input type="number" min="0" size="3" maxlength="3" class="quantity" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" data-line-id="{{ forloop.index }}" {% if settings.limit_quantity and item.variant.inventory_management != blank and item.variant.inventory_quantity > 0 and item.variant.inventory_policy == "deny" %}max="{{ item.variant.inventory_quantity }}"{% endif %} />
+              </p>
+
+              <p class="remove_item">
+                <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" title="{{ 'cart.general.remove' | t }}">{{ 'cart.general.remove' | t }}</a>
+              </p>
+            </div>
+            <br class="clear" />
+            <br class="clear" />
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="five columns offset-by-one">
+        <h4 class="subtotal">
+          {{ 'cart.general.subtotal' | t }}
+        </h4>
+
+        <div style="text-align: right;" class="saw-extra-note"></div>
+
+        <p class="subtotal_amount">
+          <strong>
+            <span class="money"><span class="saw-cart-original-total">{{ cart.total_price | money_with_currency }}</span></span><br/><span class="saw-cart-total"></span>
+          </strong>
+          {% comment %}
+          <small id="estimated-shipping" style="display:none">+ <em><span class="money">{{ 0 | money }}</span> {{ 'cart.shipping_calculator.estimated_shipping' | t }}</em></small>
+          {% endcomment %}
+			<br>
+          <small class="excluding_tax"><em>{{ 'cart.general.excluding_tax_shipping' | t }}</em></small>
+        </p>
+		{% comment %}
+        {% if settings.show_multiple_currencies %}
+          <p>
+            <small>
+              {{ 'cart.general.orders_processed_in_currency_html' | t: currency: shop.currency }}
+            </small>
+          </p>
+        {% endif %}
+        {% endcomment %}
+       {% if settings.show_multiple_currencies %}
+         <p>
+          <small>
+           Orders will be processed in {{ shop.currency }}.
+          </small>
+         </p>
+       {% endif %}
+
+      <!--          -->
+        {% if section.settings.display_special_instructions %}
+          <label for="note">{{ 'cart.general.note' | t: shop_name: shop.name }}:</label>
+          <textarea id="cart-note" name="note" rows="2">{{ cart.note }}</textarea>
+        {% endif %}
+
+        {% if section.settings.display_tos_checkbox %}
+          <div class="tos_checkbox">
+            <input type="checkbox" class="tos_agree" id="cart_agree" required />
+              <label class="tos_label" for="cart_agree">
+                {% if section.settings.tos_richtext != blank %}
+                    {{ section.settings.tos_richtext }}
+                {% else %}
+                    {{ 'cart.general.agree_to_terms_html' | t }}
+                {% endif %}
+              </label>
+          </div>
+        {% endif %}
+
+        <p>
+          <input type="submit" class="action_button add_to_cart" id="checkout" name="checkout" value="{{ 'cart.general.checkout' | t }}" />
+        </p>
+
+        {% unless saw_has_discount %}
+          {% if content_for_additional_checkout_buttons and settings.cart_action != 'ajax' %}
+            <div class="additional-checkout-buttons">
+              {{ content_for_additional_checkout_buttons | google_button_options: 'transparent' }}
+            </div>
+          {% endif %}
+        {% endunless %}    
+
+        
+      </div>
+    </div>
+  </form>
+{% endif %}
+</div>
+</div>
+{% schema %}
+
+{
+  "name": "Cart page",
+  "class": "cart-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "display_special_instructions",
+      "label": "Show \"note\" text box"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_tos_checkbox",
+      "label": "Show \"agree to terms\" checkbox"
+    },
+    {
+      "type": "richtext",
+      "id": "tos_richtext",
+      "label": "Agree to terms text",
+      "default": "<p>I Agree with the Terms & Conditions</p>"
+    }
+  ]
+}
+
+{% endschema %}

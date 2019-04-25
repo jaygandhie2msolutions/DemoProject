@@ -1,0 +1,115 @@
+{% if type == 'block' %}
+  {% assign id = block.id %}
+  {% assign title = block.settings.title %}
+  {% assign address_and_hours = block.settings.address_and_hours %}
+  {% assign map_address = block.settings.map_address %}
+  {% assign button_label = block.settings.button_label %}
+  {% assign text_align = block.settings.text_align %}
+  {% assign map_position = block.settings.map_position %}
+  {% assign zoom_level = block.settings.zoom_level %}
+  {% assign store_hours = block.settings.store_hours %}
+  {% assign show_pin = block.settings.show_pin %}
+  {% assign wide_display = block.settings.wide_display %}
+  {% assign api_key = block.settings.api_key %}
+  {% assign map_style = block.settings.map_style %}
+  {% assign image = block.settings.image %}
+{% else %}
+  {% assign id = section.id %}
+  {% assign title = section.settings.title %}
+  {% assign address_and_hours = section.settings.address_and_hours %}
+  {% assign map_address = section.settings.map_address %}
+  {% assign button_label = section.settings.button_label %}
+  {% assign text_align = section.settings.text_align %}
+  {% assign map_position = section.settings.map_position %}
+  {% assign zoom_level = section.settings.zoom_level %}
+  {% assign store_hours = section.settings.store_hours %}
+  {% assign show_pin = section.settings.show_pin %}
+  {% assign wide_display = section.settings.wide_display %}
+  {% assign api_key = section.settings.api_key %}
+  {% assign map_style = section.settings.map_style %}
+  {% assign image = section.settings.image %}
+{% endif %}
+
+<div class="clearfix map--container grid-layout--{% if wide_display %}full-width{% else %}standard{% endif %} {% unless wide_display %}container{% endunless %}">
+  <section class="featured-link--section featured-link--image section-{{ forloop.index }} {% unless wide_display %}sixteen columns{% endunless %} map-position--{{ map_position }}">
+    <div class="featured-link--half featured-link--image {% unless store_hours or contact_form %}full-width{% endunless %}">
+      <div class="featured-link--wrap">
+        {% if map_address != blank and api_key != blank %}
+          {% if api_key != blank %}
+            <div class="map maps {% if api_key %}js-api-map{% endif %}" id="map-{{ id }}"
+                  data-address="{{ map_address | strip_html }}"
+                  data-zoom="{{ zoom_level }}"
+                  data-pin="{{ show_pin }}"
+                  data-id="map-{{ id }}"
+                  data-style="{{ map_style }}"
+                  data-api-key="{{ api_key }}"
+                  data-directions-address="{{ map_address | strip_html | handleize | replace: '_', '+' | replace: ' ', '+'}}">
+            </div>
+          {% else %}
+            <div class="maps">
+              <iframe width="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q={% if map_address != blank %}{{ map_address | strip_html | replace: ' ', '+' }}{% else %}{{ shop.address.street }}{% endif %}&amp;z={{ zoom_level }}&amp;output=embed"></iframe>
+            </div>
+          {% endif %}
+        {% elsif map_address != blank and api_key == blank %}
+          <div class="maps">
+            <iframe width="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q={% if map_address != blank %}{{ map_address | strip_html | replace: ' ', '+' }}{% else %}{{ shop.address.street }}{% endif %}&amp;z={{ zoom_level }}&amp;output=embed"></iframe>
+          </div>
+        {% else %}
+          {% if image %}
+            <img  src="{{ image | img_url: '300x' }}"
+                  alt="{{ image.alt | escape }}"
+                  data-src="{{ image | img_url: '2048x' }}"
+                  class="lazyload lazyload--fade-in"
+                  data-sizes="auto"
+                  data-srcset=" {{ image | img_url: '2048x' }} 2048w,
+                                {{ image | img_url: '1600x' }} 1600w,
+                                {{ image | img_url: '1200x' }} 1200w,
+                                {{ image | img_url: '1000x' }} 1000w,
+                                {{ image | img_url: '800x' }} 800w,
+                                {{ image | img_url: '600x' }} 600w,
+                                {{ image | img_url: '400x' }} 400w"
+                    />
+          {% else %}
+            {% capture i %}{% cycle "1", "2", "3", "4", "5", "6" %}{% endcapture %}
+            {{ 'collection-' | append: i | placeholder_svg_tag: 'placeholder-svg placeholder-svg--promotions' }}
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+    {% if store_hours %}
+      <div class="featured-link--half">
+        <div class="info text-align--{{ text_align }}">
+          {% if title != blank %}
+            <h2 class="title">
+              {{ title | escape }}
+            </h2>
+          {% endif %}
+          {% if address_and_hours != blank %}
+            {{ address_and_hours }}
+          {% endif %}
+          {% if button_label != blank %}
+            <br>
+            <a href="" class="js-map-link action_button">
+              {{ button_label | escape }}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    {% elsif contact_form %}
+      <div class="featured-link--half contact-form--half">
+        <div class="info">
+          {% include 'contact-form' %}
+        </div>
+      </div>
+    {% endif %}
+  </section>
+</div>
+
+<style>
+
+{% unless store_hours or contact_form %}
+  .grid-layout--standard .featured-link--half.featured-link--image {
+    width: 100%;
+  }
+{% endunless %}
+</style>

@@ -1,0 +1,12 @@
+{% comment %}ly_global_begin{% endcomment %}{% include 'ly-global' %}{% comment %}ly_global_end{% endcomment %}
+{% assign wholesale_customer = false %}
+
+{% if customer %}
+  {% for tag in customer.tags %}
+    {% if tag contains "Wholesale" %}
+     {% assign wholesale_customer = true%}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% assign wholesale_reject_message = settings.wholesale_reject_message %}

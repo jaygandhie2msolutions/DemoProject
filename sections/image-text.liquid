@@ -1,0 +1,87 @@
+{% include 'include-image-with-text' %}
+
+{% schema %}
+{
+  "name": "Image with text",
+  "class": "image-with-text-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "wide_display",
+      "default": false,
+      "label": "Wide display"
+    },
+    {
+      "type": "select",
+      "id": "grid_text_position",
+      "label": "Text position",
+      "options": [
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "1000 x 400px recommended"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Image"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Promotion description appears here.</p>"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "View all"
+    }
+  ],
+  "presets": [{
+    "name": "Image with text",
+    "category": "Image",
+    "settings": {
+      "wide_display": false,
+      "text_align": "left"
+    }
+  }]
+}
+{% endschema %}

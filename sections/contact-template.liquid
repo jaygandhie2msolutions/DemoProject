@@ -1,0 +1,244 @@
+{% if section.settings.banner_image != blank %}
+  <section class="banner-section {% if section.settings.wide_display == false %}main_content_area container {% endif %} wide_display--{{ section.settings.wide_display }}">
+    <div class="slider flexslider homepage_slider {% if section.settings.wide_display == false %}sixteen columns{% endif %}">
+      <ul class="slides">
+        <li>
+          <img  src="{{ section.settings.banner_image | img_url: '1200x' }}"
+                alt="{{ section.settings.image.alt | escape }}"
+                class="lazyload transition-in"
+                sizes="100vw"
+                srcset="{{ section.settings.banner_image | img_url: '480x' }} 480w,
+                        {{ section.settings.banner_image | img_url: '768x' }} 768w,
+                        {{ section.settings.banner_image | img_url: '1200x' }} 1200w,
+                        {{ section.settings.banner_image | img_url: '2048x2048' }} 2048w"
+                />
+          {% if section.settings.image != blank or section.settings.title != blank or section.settings.subtext != blank %}
+            <div class="flex-caption">
+              <div class="container">
+                <div class="columns {% if section.settings.text_position == 'left' %} nine offset-by-one {% elsif section.settings.text_position == 'right' %} eight offset-by-seven {% else %} ten offset-by-three {% endif %} align_{{ section.settings.text_align }}">
+                  {% if section.settings.title != blank %}
+                    <h1 class="headline">
+                      {{ section.settings.title | escape }}
+                    </h1>
+                  {% else %}
+                    <h1 class="headline">
+                      {{ page.title }}
+                    </h1>
+                  {% endif %}
+                  {% if section.settings.subtext != blank %}
+                    <div class="subtitle">
+                      {{ section.settings.subtext }}
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        </li>
+      </ul>
+    </div>
+  </section>
+{% endif %}
+
+ <div class="main_content_area content container">
+  {% unless section.settings.banner_image %}
+    <div class="sixteen columns clearfix">
+      {% if section.settings.title != blank %}
+        <h1 class="headline">
+          {{ section.settings.title | escape }}
+        </h1>
+      {% else %}
+        <h1 class="headline">
+          {{ page.title }}
+        </h1>
+      {% endif %}
+      {% if section.settings.subtext != blank %}
+        <div class="subtitle_content">
+          {{ section.settings.subtext }}
+        </div>
+      {% endif %}
+    </div>
+  {% endunless %}
+
+  <div class="contact__content">
+    {% if page.content != blank %}
+      <div class="sixteen columns page clearfix">
+        <div>
+          {% include 'page-multi-column', content: page.content %}
+        </div>
+      </div>
+    {% endif %}
+    {% form 'contact' %}
+      {% if section.settings.map_address != blank or section.settings.image != blank %}
+        {% include 'include-map', contact_form: 'true' %}
+      {% else %}
+        <div class="six columns offset-by-five">
+          <br>
+          {% include 'contact-form' %}
+        </div>
+      {% endif %}
+    {% endform %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Contact page",
+  "class": "contact-template-section banner-option",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "wide_display",
+      "label": "Wide display",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "text_position",
+      "label": "Text position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Get in touch today"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "label": "Text"
+    },
+    {
+      "type": "header",
+      "content": "Map"
+    },
+    {
+      "type": "text",
+      "id": "map_address",
+      "label": "Map address",
+      "info": "Google Maps will find the exact location"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "Displayed if the map isn’t loaded"
+    },
+    {
+      "type": "select",
+      "id": "map_position",
+      "label": "Map position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "zoom_level",
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "unit": "x",
+      "label": "Map zoom level",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "API key"
+    },
+    {
+      "type": "text",
+      "id": "api_key",
+      "label": "Google Maps API key",
+      "info": "You’ll need to [register a Google Maps API Key](https://help.shopify.com/manual/using-themes/troubleshooting/map-section-api-key) to display the map"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pin",
+      "label": "Show pin",
+      "info": "Requires use of API key",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "map_style",
+      "label": "Map color scheme",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "aubergine",
+          "label": "Aubergine"
+        },
+        {
+          "value": "night",
+          "label": "Night"
+        },
+        {
+          "value": "retro",
+          "label": "Retro"
+        },
+        {
+          "value": "silver",
+          "label": "Silver"
+        }
+      ],
+      "default": "default",
+      "info": "Requires use of API key"
+    }
+  ]
+}
+
+{% endschema %}
